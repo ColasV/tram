@@ -1,0 +1,4 @@
+tram:
+    resource: "@TramBundle/Resources/config/routing.yml"
+    prefix:   /
+
