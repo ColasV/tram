@@ -56,11 +56,16 @@ class Ligne
      */
     private $arrival;
 
+    /**
+    * @ORM\ManyToMany(targetEntity="Tram\TramBundle\Entity\Stop", cascade={"persist"})
+    */
+    private $stops;
+
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -83,7 +88,7 @@ class Ligne
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -106,7 +111,7 @@ class Ligne
     /**
      * Get code
      *
-     * @return string 
+     * @return string
      */
     public function getCode()
     {
@@ -129,7 +134,7 @@ class Ligne
     /**
      * Get logo
      *
-     * @return string 
+     * @return string
      */
     public function getLogo()
     {
@@ -152,7 +157,7 @@ class Ligne
     /**
      * Get departure
      *
-     * @return string 
+     * @return string
      */
     public function getDeparture()
     {
@@ -175,10 +180,47 @@ class Ligne
     /**
      * Get arrival
      *
-     * @return string 
+     * @return string
      */
     public function getArrival()
     {
         return $this->arrival;
+    }
+
+    public function __construct()
+    {
+        $this->stops = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+    * Add categories
+    *
+    * @param Tram\TramBundle\Entity\Stop $stops
+    */
+    public function addCategorie(Tram\TramBundle\Entity\Stop $stop) // addCategorie sans « s » !
+    {
+        // Ici, on utilise l'ArrayCollection vraiment comme un tableau, avec la syntaxe []
+        $this->stops[] = $stop;
+    }
+
+    /**
+     * Remove categories
+     *
+     * @param STram\TramBundle\Entity\Stop $stops
+     */
+     public function removeCategorie(Tram\TramBundle\Entity\Stop $stop) // removeCategorie sans « s » !
+     {
+        // Ici on utilise une méthode de l'ArrayCollection, pour supprimer la catégorie en argument
+        $this->stops->removeElement($stop);
+     }
+
+     /**
+     * Get categories
+     *
+     * @return Doctrine\Common\Collections\Collection
+    */
+    public function getCategories() // Notez le « s », on récupère une liste de catégories ici !
+    {
+        return $this->stops;
     }
 }
