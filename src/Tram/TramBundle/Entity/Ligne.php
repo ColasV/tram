@@ -193,22 +193,22 @@ class Ligne
     }
 
     /**
-    * Add categories
+    * Add stop
     *
-    * @param Tram\TramBundle\Entity\Stop $stops
+    * @param Tram\TramBundle\Entity\Stop $stop
     */
-    public function addCategorie(Tram\TramBundle\Entity\Stop $stop) // addCategorie sans « s » !
+    public function addStop(Stop $stop) // addCategorie sans « s » !
     {
         // Ici, on utilise l'ArrayCollection vraiment comme un tableau, avec la syntaxe []
         $this->stops[] = $stop;
     }
 
     /**
-     * Remove categories
+     * Remove stop
      *
-     * @param STram\TramBundle\Entity\Stop $stops
+     * @param Tram\TramBundle\Entity\Stop $stops
      */
-     public function removeCategorie(Tram\TramBundle\Entity\Stop $stop) // removeCategorie sans « s » !
+     public function removeStop(Stop $stop) // removeCategorie sans « s » !
      {
         // Ici on utilise une méthode de l'ArrayCollection, pour supprimer la catégorie en argument
         $this->stops->removeElement($stop);
@@ -219,8 +219,13 @@ class Ligne
      *
      * @return Doctrine\Common\Collections\Collection
     */
-    public function getCategories() // Notez le « s », on récupère une liste de catégories ici !
+    public function getStops() // Notez le « s », on récupère une liste de catégories ici !
     {
         return $this->stops;
+    }
+
+    public function getLogourl()
+    {
+        return '/bundles/tram/images/' . $this->logo;
     }
 }

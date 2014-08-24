@@ -1,5 +1,12 @@
 {% extends "TramBundle::layout.html.twig" %}
 
 {% block body %}
-    Ceci est un test {{name}}
+    <ul class="list-group">
+    {% for ligne in lignes %}
+        <li class="list-group-item">
+            <img src="{{ ligne.logourl }}" />
+            <a href="{{ path('tram_ligne', {'code': ligne.code}) }}"> {{ligne.name}} </a>
+        </li>
+    {% endfor %}
+    </ul>
 {% endblock %}

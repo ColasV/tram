@@ -1,3 +1,6 @@
 tram_homepage:
-    path:     /hello/{name}
-    defaults: { _controller: TramBundle:Default:index }
+    path:     /Ligne/
+    defaults: { _controller: TramBundle:Ligne:index }
+tram_ligne:
+    path:     /Ligne/{code}
+    defaults: { _controller: TramBundle:Ligne:ligne}
