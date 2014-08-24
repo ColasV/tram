@@ -31,15 +31,29 @@ class Accident
     /**
      * @var string
      *
+     * @ORM\Column(name="date", type="text")
+     */
+    private $date;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="description", type="text")
      */
     private $description;
+
+    /**
+   * @ORM\ManyToOne(targetEntity="Tram\TramBundle\Entity\Ligne", inversedBy="accidents")
+   * @ORM\JoinColumn(nullable=false)
+   */
+   private $ligne;
+
 
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -62,7 +76,7 @@ class Accident
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -85,10 +99,52 @@ class Accident
     /**
      * Get description
      *
-     * @return string 
+     * @return string
      */
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+   * Set ligne
+   *
+   * @param Tram\TramBundle\Entity\Ligne $ligne
+   */
+   public function setLigne(Ligne $ligne)
+   {
+       $this->ligne = $ligne;
+   }
+
+    /**
+     * Get ligne
+     *
+     * @return Tram\TramBundle\Entity\Ligne
+     */
+     public function getLigne()
+     {
+         return $this->ligne;
+     }
+
+    /**
+     * Set date
+     *
+     * @param text $date
+     * @return Accident
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+        return $this;
+    }
+
+    /**
+     * Get date
+     *
+     * @return text 
+     */
+    public function getDate()
+    {
+        return $this->date;
     }
 }

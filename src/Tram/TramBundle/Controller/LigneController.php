@@ -25,6 +25,8 @@ class LigneController extends Controller
 
         $res = $rep->findOneByCode($code);
 
+        $accidents = $res->getAccidents();
+
         return $this->render('TramBundle:Tram:ligne.html.twig', array('ligne' => $res));
     }
 }

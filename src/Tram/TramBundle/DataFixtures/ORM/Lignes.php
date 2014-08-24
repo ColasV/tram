@@ -2,11 +2,12 @@
 
 namespace Tram\TramBundle\DataFixtures\ORM;
 
-use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
+use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Tram\TramBundle\Entity\Ligne;
 
-class Lignes implements FixtureInterface
+class Lignes extends AbstractFixture implements OrderedFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
@@ -16,6 +17,8 @@ class Lignes implements FixtureInterface
         $ligne->setLogo('tramA.png');
         $ligne->setDeparture('ECHIROLLES DENIS PAPIN');
         $ligne->setArrival('FONTAINE LA POYA');
+
+        $this->addReference('ligneA', $ligne);
 
         $manager->persist($ligne);
 
@@ -47,7 +50,14 @@ class Lignes implements FixtureInterface
         $manager->persist($ligne);
 
         $manager->flush();
+    }
 
+    /**
+     * {@inheritDoc}
+     */
+    public function getOrder()
+    {
+        return 1; // the order in which fixtures will be loaded
     }
 
 

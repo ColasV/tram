@@ -6,7 +6,25 @@
         <li class="list-group-item">
             <img src="{{ ligne.logourl }}" />
             <a href="{{ path('tram_ligne', {'code': ligne.code}) }}"> {{ligne.name}} </a>
+
+            {% for accident in ligne.accidents %}
+                <a href="#" id="{{ accident.name }}{{ accident.id }}" rel="popover" class="pull-right pop">
+                    <img src="/bundles/tram/images/alert.png" />
+                </a>
+
+            {% endfor %}
         </li>
     {% endfor %}
     </ul>
+
+    <script>
+    {% for ligne in lignes %}
+
+        {% for accident in ligne.accidents %}
+            $('#{{ accident.name }}{{ accident.id }}').popover({title : '{{ accident.name }}',content:'<b>{{ accident.date }}</b> <br/> {{ accident.description }}',placement:'left',html:'true'});
+        {% endfor %}
+
+    {% endfor %}
+    </script>
+
 {% endblock %}

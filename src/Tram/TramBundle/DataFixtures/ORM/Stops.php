@@ -2,12 +2,13 @@
 
 namespace Tram\TramBundle\DataFixtures\ORM;
 
-use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
+use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Tram\TramBundle\Entity\Stop;
 use Tram\TramBundle\Entity\Ligne;
 
-class Stops implements FixtureInterface
+class Stops extends AbstractFixture implements OrderedFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
@@ -24,5 +25,13 @@ class Stops implements FixtureInterface
         //$manager->persist($stop);
         $manager->flush();
 
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getOrder()
+    {
+        return 2; // the order in which fixtures will be loaded
     }
 }

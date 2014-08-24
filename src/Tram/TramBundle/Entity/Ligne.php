@@ -62,6 +62,12 @@ class Ligne
     private $stops;
 
 
+  /**
+   * @ORM\OneToMany(targetEntity="Tram\TramBundle\Entity\Accident", mappedBy="ligne")
+   */
+  private $accidents;
+
+
     /**
      * Get id
      *
@@ -227,5 +233,37 @@ class Ligne
     public function getLogourl()
     {
         return '/bundles/tram/images/' . $this->logo;
+    }
+
+    /**
+     * Add accidents
+     *
+     * @param Tram\TramBundle\Entity\Accident $accidents
+     * @return Ligne
+     */
+    public function addAccident(\Tram\TramBundle\Entity\Accident $accidents)
+    {
+        $this->accidents[] = $accidents;
+        return $this;
+    }
+
+    /**
+     * Remove accidents
+     *
+     * @param Tram\TramBundle\Entity\Accident $accidents
+     */
+    public function removeAccident(\Tram\TramBundle\Entity\Accident $accidents)
+    {
+        $this->accidents->removeElement($accidents);
+    }
+
+    /**
+     * Get accidents
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getAccidents()
+    {
+        return $this->accidents;
     }
 }

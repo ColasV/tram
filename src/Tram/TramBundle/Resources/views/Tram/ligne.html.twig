@@ -1,5 +1,9 @@
 {% extends "TramBundle::layout.html.twig" %}
 
+{% block title %}
+    <title>{{ ligne.name }}</title>
+{% endblock %}
+
 {% block breadcrumb %}
     <li><a href="{{ path('tram_homepage') }}">Home</a></li>
     <li>{{ ligne.name }}</li>
