@@ -22,7 +22,15 @@ class Stops extends AbstractFixture implements OrderedFixtureInterface
 
         $ligne->addStop($stop);
 
-        //$manager->persist($stop);
+        $stop = new Stop;
+        $stop->setName('Tutu');
+        $stop->setCode('Lol');
+        $stop->setLat('1.0');
+        $stop->setLng('1.0');
+
+        $ligne->addStop($stop);
+
+        $manager->persist($stop);
         $manager->flush();
 
     }

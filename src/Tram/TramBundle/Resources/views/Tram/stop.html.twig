@@ -1,0 +1,28 @@
+{% extends "TramBundle::layout.html.twig" %}
+
+{% block title %}
+    <title>{{ stop.name }}</title>
+{% endblock %}
+
+{% block breadcrumb %}
+    <li><a href="{{ path('tram_homepage') }}">Home</a></li>
+    <li>{{ stop.name }}</li>
+{% endblock %}
+
+{% block body %}
+    <h1>{{ stop.name }}</h1>
+
+    <ul>
+    {% for ligne in stop.lignes %}
+        <li>{{ ligne.name }}</li>
+        <ul>
+
+        {% for schedule in ligne.getHoraires(stop) %}
+            <li>{{stop.name}}</li>
+            <li>{{ schedule.date|date("m/d/Y H:i:s") }} {{schedule.ligne.name}} {{schedule.stop.name}} {{schedule.destination.name}}</li>
+        {% endfor %}
+        </ul>
+    {% endfor %}
+    </ul>
+
+{% endblock %}

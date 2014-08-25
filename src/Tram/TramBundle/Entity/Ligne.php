@@ -3,6 +3,7 @@
 namespace Tram\TramBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Criteria;
 
 /**
  * Ligne
@@ -43,23 +44,24 @@ class Ligne
     private $logo;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="departure", type="string", length=255)
+     * @ORM\OneToOne(targetEntity="Tram\TramBundle\Entity\Destination", cascade={"persist"})
      */
     private $departure;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="arrival", type="string", length=255)
+     * @ORM\OneToOne(targetEntity="Tram\TramBundle\Entity\Destination", cascade={"persist"})
      */
     private $arrival;
 
     /**
-    * @ORM\ManyToMany(targetEntity="Tram\TramBundle\Entity\Stop", cascade={"persist"})
+    * @ORM\ManyToMany(targetEntity="Tram\TramBundle\Entity\Stop", cascade={"persist"}, mappedBy="lignes")
     */
     private $stops;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Tram\TramBundle\Entity\Schedule", mappedBy="ligne")
+     */
+    private $schedules;
 
 
   /**
@@ -207,6 +209,7 @@ class Ligne
     {
         // Ici, on utilise l'ArrayCollection vraiment comme un tableau, avec la syntaxe []
         $this->stops[] = $stop;
+        $stop->addLigne($this);
     }
 
     /**
@@ -260,10 +263,54 @@ class Ligne
     /**
      * Get accidents
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return Doctrine\Common\Collections\Collection
      */
     public function getAccidents()
     {
         return $this->accidents;
     }
+
+    /**
+     * Add schedules
+     *
+     * @param Tram\TramBundle\Entity\Schedule $schedules
+     * @return Ligne
+     */
+    public function addSchedule(\Tram\TramBundle\Entity\Schedule $schedules)
+    {
+        $this->schedules[] = $schedules;
+        return $this;
+    }
+
+    /**
+     * Remove schedules
+     *
+     * @param Tram\TramBundle\Entity\Schedule $schedules
+     */
+    public function removeSchedule(\Tram\TramBundle\Entity\Schedule $schedules)
+    {
+        $this->schedules->removeElement($schedules);
+    }
+
+    /**
+     * Get schedules
+     *
+     * @return Doctrine\Common\Collections\Collection
+     */
+    public function getSchedules()
+    {
+        return $this->schedules;
+    }
+
+    /**
+     *
+     */
+     public function getHoraires(Stop $stop)
+     {
+         $criteria = Criteria::create();
+         $criteria->where(Criteria::expr()->eq('stop', $stop));
+
+         return $this->schedules->matching($criteria);
+     }
+
 }

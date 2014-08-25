@@ -49,11 +49,16 @@ class Stop
      */
     private $lng;
 
+    /**
+    * @ORM\ManyToMany(targetEntity="Tram\TramBundle\Entity\Ligne", cascade={"persist"}, inversedBy="stops")
+    */
+    private $lignes;
+
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -76,7 +81,7 @@ class Stop
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -99,7 +104,7 @@ class Stop
     /**
      * Get code
      *
-     * @return string 
+     * @return string
      */
     public function getCode()
     {
@@ -122,7 +127,7 @@ class Stop
     /**
      * Get lat
      *
-     * @return float 
+     * @return float
      */
     public function getLat()
     {
@@ -145,10 +150,78 @@ class Stop
     /**
      * Get lng
      *
-     * @return float 
+     * @return float
      */
     public function getLng()
     {
         return $this->lng;
+    }
+    public function __construct()
+    {
+        $this->schedules = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add schedules
+     *
+     * @param Tram\TramBundle\Entity\Schedule $schedules
+     * @return Stop
+     */
+    public function addSchedule(\Tram\TramBundle\Entity\Schedule $schedules)
+    {
+        $this->schedules[] = $schedules;
+        return $this;
+    }
+
+    /**
+     * Remove schedules
+     *
+     * @param Tram\TramBundle\Entity\Schedule $schedules
+     */
+    public function removeSchedule(\Tram\TramBundle\Entity\Schedule $schedules)
+    {
+        $this->schedules->removeElement($schedules);
+    }
+
+    /**
+     * Get schedules
+     *
+     * @return Doctrine\Common\Collections\Collection
+     */
+    public function getSchedules()
+    {
+        return $this->schedules;
+    }
+
+    /**
+     * Add lignes
+     *
+     * @param Tram\TramBundle\Entity\Ligne $lignes
+     * @return Stop
+     */
+    public function addLigne(\Tram\TramBundle\Entity\Ligne $lignes)
+    {
+        $this->lignes[] = $lignes;
+        return $this;
+    }
+
+    /**
+     * Remove lignes
+     *
+     * @param Tram\TramBundle\Entity\Ligne $lignes
+     */
+    public function removeLigne(\Tram\TramBundle\Entity\Ligne $lignes)
+    {
+        $this->lignes->removeElement($lignes);
+    }
+
+    /**
+     * Get lignes
+     *
+     * @return Doctrine\Common\Collections\Collection
+     */
+    public function getLignes()
+    {
+        return $this->lignes;
     }
 }
