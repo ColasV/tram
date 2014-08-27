@@ -1,9 +1,9 @@
 tram_homepage:
-    path:     /Ligne/
+    path:     /Lignes/
     defaults: { _controller: TramBundle:Ligne:index }
 tram_ligne:
-    path:     /Ligne/{code}
+    path:     /Lignes/{code}/Stops
     defaults: { _controller: TramBundle:Ligne:ligne}
 tram_stop:
-    path:     /Stop/{code}
+    path:     /Lignes/{code_ligne}/Stops/{code_stop}
     defaults: { _controller: TramBundle:Ligne:stop}

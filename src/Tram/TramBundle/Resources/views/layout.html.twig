@@ -4,6 +4,10 @@
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
 
+    {% stylesheets '@TramBundle/Resources/public/css/style.css' filter="cssrewrite" %}
+                <link href="{{ asset_url }}" rel="stylesheet" type="text/css" />
+    {% endstylesheets %}
+
     {% block title %}
         <title>Index</title>
     {% endblock %}
@@ -28,7 +32,14 @@
         {% block body %}
         {% endblock %}
     </div>
-
+    <div class="footer">
+    <p>
+        <a href="#">Trams Grenoblois</a>
+        <a href="https://twitter.com/nicolas_vignes">@Twitter</a>
+        <a href="http://blog.nicolasvignes.fr">Blog</a>
+        <a href="https://github.com/ColasV/tram">GitHub</a>
+    </p>
+    </div>
 
 </body>
 </html>

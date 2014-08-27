@@ -6,6 +6,7 @@
 
 {% block breadcrumb %}
     <li><a href="{{ path('tram_homepage') }}">Home</a></li>
+    <li><a href="{{ path('tram_ligne', {'code': ligne_stop.code })}}">{{ ligne_stop.name }}</a></li>
     <li>{{ stop.name }}</li>
 {% endblock %}
 
@@ -31,7 +32,7 @@
                 <div class="list-group">
                 {% for schedule in ligne.getHoraires(stop, destination) %}
                     <div class="list-group-item">
-                        {{ schedule.date|date("m/d/Y H:i:s") }} {{schedule.ligne.name}} {{schedule.stop.name}} {{schedule.destination.name}}
+                        {{ schedule.date|date("H:i") }}
                     </div>
                 {% endfor %}
                 </div>
