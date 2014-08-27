@@ -13,6 +13,7 @@ class Stops extends AbstractFixture implements OrderedFixtureInterface
     public function load(ObjectManager $manager)
     {
         $ligne = $manager->getRepository('TramBundle:Ligne')->find(1);
+        $ligne_2 = $manager->getRepository('TramBundle:Ligne')->find(2);
 
         $stop = new Stop;
         $stop->setName('Toto');
@@ -29,6 +30,7 @@ class Stops extends AbstractFixture implements OrderedFixtureInterface
         $stop->setLng('1.0');
 
         $ligne->addStop($stop);
+        $ligne_2->addStop($stop);
 
         $manager->persist($stop);
         $manager->flush();

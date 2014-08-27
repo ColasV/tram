@@ -19,15 +19,32 @@ class Lignes extends AbstractFixture implements OrderedFixtureInterface
 
         $departure = new Destination;
         $departure->setName('ECHIROLLES DENIS PAPIN');
-
-        $ligne->setDeparture($departure);
+        $ligne->addDestination($departure);
+        $manager->persist($departure);
 
         $arrival = new Destination;
         $arrival->setName('FONTAINE LA POYA');
-
-        $ligne->setArrival($arrival);
+        $ligne->addDestination($arrival);
+        $manager->persist($arrival);
 
         $this->addReference('ligneA', $ligne);
+
+        $manager->persist($ligne);
+
+        $ligne = new Ligne;
+        $ligne->setName('Tram B');
+        $ligne->setCode('B');
+        $ligne->setLogo('tramB.png');
+
+        $departure = new Destination;
+        $departure->setName('GRENOBLE CITE INTERNATIONALE');
+        $ligne->addDestination($departure);
+        $manager->persist($departure);
+
+        $arrival = new Destination;
+        $arrival->setName('GIERES PLAINE DES SPORTS');
+        $ligne->addDestination($arrival);
+        $manager->persist($arrival);
 
         $manager->persist($ligne);
 

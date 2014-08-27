@@ -44,14 +44,9 @@ class Ligne
     private $logo;
 
     /**
-     * @ORM\OneToOne(targetEntity="Tram\TramBundle\Entity\Destination", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Tram\TramBundle\Entity\Destination", cascade={"persist"}, mappedBy="ligne")
      */
-    private $departure;
-
-    /**
-     * @ORM\OneToOne(targetEntity="Tram\TramBundle\Entity\Destination", cascade={"persist"})
-     */
-    private $arrival;
+    private $destinations;
 
     /**
     * @ORM\ManyToMany(targetEntity="Tram\TramBundle\Entity\Stop", cascade={"persist"}, mappedBy="lignes")
@@ -305,12 +300,46 @@ class Ligne
     /**
      *
      */
-     public function getHoraires(Stop $stop)
+     public function getHoraires(Stop $stop, Destination $destination)
      {
          $criteria = Criteria::create();
          $criteria->where(Criteria::expr()->eq('stop', $stop));
+         $criteria->andWhere(Criteria::expr()->eq('destination', $destination));
 
          return $this->schedules->matching($criteria);
      }
 
+
+    /**
+     * Add destinations
+     *
+     * @param \Tram\TramBundle\Entity\Destination $destinations
+     * @return Ligne
+     */
+    public function addDestination(\Tram\TramBundle\Entity\Destination $destinations)
+    {
+        $this->destinations[] = $destinations;
+        $destinations->setLigne($this);
+        return $this;
+    }
+
+    /**
+     * Remove destinations
+     *
+     * @param \Tram\TramBundle\Entity\Destination $destinations
+     */
+    public function removeDestination(\Tram\TramBundle\Entity\Destination $destinations)
+    {
+        $this->destinations->removeElement($destinations);
+    }
+
+    /**
+     * Get destinations
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getDestinations()
+    {
+        return $this->destinations;
+    }
 }

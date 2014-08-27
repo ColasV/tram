@@ -28,11 +28,26 @@ class Destination
      */
     private $name;
 
+    /**
+   * @ORM\ManyToOne(targetEntity="Tram\TramBundle\Entity\Ligne", inversedBy="destinations")
+   * @ORM\JoinColumn(nullable=false)
+   */
+   private $ligne;
+
+
+
+    private $hash;
+
+
+    public function __construct()
+    {
+        $this->hash = uniqid();
+    }
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -54,10 +69,41 @@ class Destination
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
         return $this->name;
+    }
+
+    public function getHash()
+    {
+        if(empty($this->hash)) {
+            $this->hash = uniqid();
+        }
+        return $this->hash;
+    }
+
+    /**
+     * Set ligne
+     *
+     * @param \Tram\TramBundle\Entity\Ligne $ligne
+     * @return Destination
+     */
+    public function setLigne(\Tram\TramBundle\Entity\Ligne $ligne)
+    {
+        $this->ligne = $ligne;
+
+        return $this;
+    }
+
+    /**
+     * Get ligne
+     *
+     * @return \Tram\TramBundle\Entity\Ligne
+     */
+    public function getLigne()
+    {
+        return $this->ligne;
     }
 }

@@ -12,17 +12,33 @@
 {% block body %}
     <h1>{{ stop.name }}</h1>
 
-    <ul>
+    <div class="panel-group" id="accordion">
     {% for ligne in stop.lignes %}
-        <li>{{ ligne.name }}</li>
-        <ul>
+        <h3><img src="{{ ligne.logourl }}" />{{ ligne.name }}</h3>
 
-        {% for schedule in ligne.getHoraires(stop) %}
-            <li>{{stop.name}}</li>
-            <li>{{ schedule.date|date("m/d/Y H:i:s") }} {{schedule.ligne.name}} {{schedule.stop.name}} {{schedule.destination.name}}</li>
+        {% for destination in ligne.destinations %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{destination.hash}}">
+                    {{ destination.name }}
+                    </a>
+                </h4>
+            </div>
+
+            <div id="collapse{{destination.hash}}" class="panel-collapse collapse">
+            <div class="panel-body">
+                <div class="list-group">
+                {% for schedule in ligne.getHoraires(stop, destination) %}
+                    <div class="list-group-item">
+                        {{ schedule.date|date("m/d/Y H:i:s") }} {{schedule.ligne.name}} {{schedule.stop.name}} {{schedule.destination.name}}
+                    </div>
+                {% endfor %}
+                </div>
+            </div>
+            </div>
+        </div>
         {% endfor %}
-        </ul>
     {% endfor %}
-    </ul>
-
+    </div>
 {% endblock %}
