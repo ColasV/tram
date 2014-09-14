@@ -15,7 +15,14 @@
     {% if ligne.stops.count > 0 %}
     <ul class="list-group">
         {% for stop in ligne.stops %}
-            <li class="list-group-item"><a href="{{ path('tram_stop', {'code_ligne': ligne.code, 'code_stop': stop.code}) }}">{{ stop.name }}</a></li>
+            <li class="list-group-item">
+                <a href="{{ path('tram_stop', {'code_ligne': ligne.code, 'code_stop': stop.code}) }}">{{ stop.name }}</a>
+                <a href="#" id="" rel="popover" class="pull-right pop">
+                    {% if stop.agent %}
+                        <img src="/bundles/tram/images/red-dot.png" />
+                    {% endif %}
+                </a>
+            </li>
         {% endfor %}
     </ul>
     {% endif %}

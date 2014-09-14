@@ -54,6 +54,11 @@ class Stop
     */
     private $lignes;
 
+    /**
+     * @ORM\OneToOne(targetEntity="Tram\TramBundle\Entity\Agent")
+     */
+    private $agent;
+
 
     /**
      * Get id
@@ -223,5 +228,28 @@ class Stop
     public function getLignes()
     {
         return $this->lignes;
+    }
+
+    /**
+     * Set controlleur
+     *
+     * @param \Tram\TramBundle\Entity\Controlleur $controlleur
+     * @return Stop
+     */
+    public function setAgent(\Tram\TramBundle\Entity\Agent $agent = null)
+    {
+        $this->agent = $agent;
+
+        return $this;
+    }
+
+    /**
+     * Get controlleur
+     *
+     * @return \Tram\TramBundle\Entity\Agent
+     */
+    public function getAgent()
+    {
+        return $this->agent;
     }
 }

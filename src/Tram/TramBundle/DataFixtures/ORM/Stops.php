@@ -7,6 +7,7 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Tram\TramBundle\Entity\Stop;
 use Tram\TramBundle\Entity\Ligne;
+use Tram\TramBundle\Entity\Agent;
 
 class Stops extends AbstractFixture implements OrderedFixtureInterface
 {
@@ -28,6 +29,11 @@ class Stops extends AbstractFixture implements OrderedFixtureInterface
         $stop->setCode('Lol');
         $stop->setLat('1.0');
         $stop->setLng('1.0');
+
+        $agent = new Agent;
+        $agent->setNumber(0);
+        $manager->persist($agent);
+        $stop->setAgent($agent);
 
         $ligne->addStop($stop);
         $ligne_2->addStop($stop);

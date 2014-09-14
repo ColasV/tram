@@ -1,8 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    {% stylesheets '@TramBundle/Resources/public/css/bootstrap.min.css' filter="cssrewrite" %}
+                <link href="{{ asset_url }}" rel="stylesheet" type="text/css" />
+    {% endstylesheets %}
+
+    {% stylesheets '@TramBundle/Resources/public/css/bootstrap-theme.min.css' filter="cssrewrite" %}
+                <link href="{{ asset_url }}" rel="stylesheet" type="text/css" />
+    {% endstylesheets %}
 
     {% stylesheets '@TramBundle/Resources/public/css/style.css' filter="cssrewrite" %}
                 <link href="{{ asset_url }}" rel="stylesheet" type="text/css" />
@@ -20,6 +25,7 @@
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
     <div class="container">
 
         <ol class="breadcrumb">

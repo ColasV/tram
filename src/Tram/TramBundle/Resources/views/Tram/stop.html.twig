@@ -13,6 +13,18 @@
 {% block body %}
     <h1>{{ stop.name }}</h1>
 
+    {% if stop.agent %}
+    <div class="alert alert-danger" role="alert">
+        <p><b>Des contrôleurs semblent être présent à cet arrêt</b></p>
+        <p class="text-right"><button class="btn btn-danger">Confirmer</button></p>
+    </div>
+    {% else %}
+    <div class="alert alert-warning" role="alert">
+        <p><b>Signaler des contrôleurs</b></p>
+        <p class="text-right"><button class="btn btn-warning">Signaler</button></p>
+    </div>
+    {% endif %}
+
     <div class="panel-group" id="accordion">
     {% for ligne in stop.lignes %}
         <h3><img src="{{ ligne.logourl }}" />{{ ligne.name }}</h3>
