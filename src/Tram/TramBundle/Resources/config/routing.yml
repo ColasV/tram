@@ -7,6 +7,9 @@ tram_ligne:
 tram_stop:
     path:     /Lignes/{code_ligne}/Stops/{code_stop}
     defaults: { _controller: TramBundle:Ligne:stop}
-controlleur_add:
-    path:     /Controller/add/{stop}
-    defaults: { _controller: TramBundle:Controller:addController }
+agent_add:
+    path:     /Agent/add/{stop}
+    defaults: { _controller: TramBundle:Agent:addAgent }
+agent_show:
+    path:     /Agent/{stop}
+    defaults: { _controller: TramBundle:Agent:showAgent }

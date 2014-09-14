@@ -32,6 +32,7 @@ class Stops extends AbstractFixture implements OrderedFixtureInterface
 
         $agent = new Agent;
         $agent->setNumber(0);
+        $agent->setLastUpdate(new \DateTime());
         $manager->persist($agent);
         $stop->setAgent($agent);
 

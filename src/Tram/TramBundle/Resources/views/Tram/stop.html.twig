@@ -13,15 +13,15 @@
 {% block body %}
     <h1>{{ stop.name }}</h1>
 
-    {% if stop.agent %}
-    <div class="alert alert-danger" role="alert">
+    {% if stop.presence %}
+    <div class="alert alert-danger" role="alert" id="agentHere">
         <p><b>Des contrôleurs semblent être présent à cet arrêt</b></p>
-        <p class="text-right"><button class="btn btn-danger">Confirmer</button></p>
+        <p class="text-right"><button class="btn btn-danger" onclick="addAgent()">Confirmer</button></p>
     </div>
     {% else %}
-    <div class="alert alert-warning" role="alert">
+    <div class="alert alert-warning" role="alert" id="agentHere">
         <p><b>Signaler des contrôleurs</b></p>
-        <p class="text-right"><button class="btn btn-warning">Signaler</button></p>
+        <p class="text-right"><button class="btn btn-warning" onclick="addAgent()">Signaler</button></p>
     </div>
     {% endif %}
 
@@ -54,4 +54,19 @@
         {% endfor %}
     {% endfor %}
     </div>
+
+
+    <script>
+        function addAgent() {
+            console.debug("Ajout d'un agent à un arrêt");
+            var req = new XMLHttpRequest();
+            req.open("GET", 'http://localhost:8000/Agent/add/{{ stop.id }}', false);
+            req.send();
+
+            console.debug("Agent ajouté");
+            $("div#agentHere").replaceWith("<div class=\"alert alert-success\" role=\"alert\"> \
+                                            <p>Merci pour le signalement</p></div>");
+            console.debug("On remplace le message");
+        }
+    </script>
 {% endblock %}

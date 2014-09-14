@@ -252,4 +252,16 @@ class Stop
     {
         return $this->agent;
     }
+
+
+    public function getPresence()
+    {
+        if ($this->agent) {
+            return $this->agent->getPresence();
+        } else {
+            return false;
+        }
+    }
+
+
 }

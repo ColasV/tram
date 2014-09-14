@@ -28,6 +28,13 @@ class Agent
      */
     private $number;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date", type="datetime")
+     */
+    private $last_update;
+
 
     /**
      * Get id
@@ -52,6 +59,13 @@ class Agent
         return $this;
     }
 
+    public function addNumber()
+    {
+        $this->number += 1;
+
+        return $this;
+    }
+
     /**
      * Get number
      *
@@ -60,5 +74,40 @@ class Agent
     public function getNumber()
     {
         return $this->number;
+    }
+
+    /**
+     * Set last_update
+     *
+     * @param \DateTime $lastUpdate
+     * @return Agent
+     */
+    public function setLastUpdate($lastUpdate)
+    {
+        $this->last_update = $lastUpdate;
+
+        return $this;
+    }
+
+    /**
+     * Get last_update
+     *
+     * @return \DateTime
+     */
+    public function getLastUpdate()
+    {
+        return $this->last_update;
+    }
+
+    /**
+    * Fonction pour savoir si un agent est encore présent
+    */
+    public function getPresence()
+    {
+        $tmp = clone $this->last_update;
+
+        $tmp->modify('+ 15 minute');
+
+        return $tmp > new \DateTime();
     }
 }
