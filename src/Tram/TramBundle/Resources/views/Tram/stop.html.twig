@@ -60,7 +60,7 @@
         function addAgent() {
             console.debug("Ajout d'un agent à un arrêt");
             var req = new XMLHttpRequest();
-            req.open("GET", 'http://localhost:8000/Agent/add/{{ stop.id }}', false);
+            req.open("GET", '{{ url('agent_add', { 'stop': stop.id }) }}', false);
             req.send();
 
             console.debug("Agent ajouté");
