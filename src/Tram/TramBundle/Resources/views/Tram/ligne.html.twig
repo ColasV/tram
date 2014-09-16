@@ -17,13 +17,11 @@
         {% for stop in ligne.stops %}
             <li class="list-group-item">
                 <a href="{{ path('tram_stop', {'code_ligne': ligne.code, 'code_stop': stop.code}) }}">{{ stop.name }}</a>
-                <a href="#" id="" rel="popover" class="pull-right pop">
                     {% if stop.presence %}
                         <a href="#" rel="popover" id="{{stop.code}}"class="pull-right pop">
-                            <img src="/bundles/tram/images/red-dot.png" />
+                            <img src="/images/red-dot.png" />
                         </a>
                     {% endif %}
-                </a>
             </li>
         {% endfor %}
     </ul>
