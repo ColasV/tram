@@ -230,7 +230,7 @@ class Ligne
 
     public function getLogourl()
     {
-        return '/bundles/tram/images/' . $this->logo;
+        return '/images/' . $this->logo;
     }
 
     /**
