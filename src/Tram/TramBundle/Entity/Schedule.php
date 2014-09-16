@@ -14,6 +14,15 @@ class Schedule
 {
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="date", type="datetime")
@@ -22,21 +31,21 @@ class Schedule
 
     /**
    * @ORM\ManyToOne(targetEntity="Tram\TramBundle\Entity\Ligne", inversedBy="schedules")
-   * @ORM\Id
+   *
    * @ORM\JoinColumn(nullable=false)
    */
    private $ligne;
 
    /**
   * @ORM\ManyToOne(targetEntity="Tram\TramBundle\Entity\Stop")
-  * @ORM\Id
+  *
   * @ORM\JoinColumn(nullable=false)
   */
   private $stop;
 
   /**
  * @ORM\ManyToOne(targetEntity="Tram\TramBundle\Entity\Destination")
- * @ORM\Id
+ *
  * @ORM\JoinColumn(nullable=false)
  */
  private $destination;
