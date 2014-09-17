@@ -15,13 +15,11 @@
 
     {% if stop.presence %}
     <div class="alert alert-danger" role="alert" id="agentHere">
-        <p><b>Des contrôleurs semblent être présent à cet arrêt</b></p>
-        <p class="text-right"><button class="btn btn-danger" onclick="addAgent()">Confirmer</button></p>
+        <p class="text-center"><button class="btn btn-danger" onclick="addAgent()">Confirmer contrôlleurs</button></p>
     </div>
     {% else %}
     <div class="alert alert-warning" role="alert" id="agentHere">
-        <p><b>Signaler des contrôleurs</b></p>
-        <p class="text-right"><button class="btn btn-warning" onclick="addAgent()">Signaler</button></p>
+        <p class="text-center"><button class="btn btn-warning" onclick="addAgent()">Signaler des contrôlleurs</button></p>
     </div>
     {% endif %}
 

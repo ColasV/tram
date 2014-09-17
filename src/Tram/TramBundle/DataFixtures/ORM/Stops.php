@@ -14,14 +14,18 @@ class Stops extends AbstractFixture implements OrderedFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
-        $ligne = $manager->getRepository('TramBundle:Ligne')->find(1);
-        $ligne_2 = $manager->getRepository('TramBundle:Ligne')->find(2);
+        $lignes = $manager->getRepository('TramBundle:Ligne')->findAll();
+        $liste_stops = [];
 
+        //$ligne_2 = $manager->getRepository('TramBundle:Ligne')->find(2);
 
+        $stop_repo = $manager->getRepository('TramBundle:Stop');
+
+        foreach($lignes as $ligne) {
         /**
          * Fonction qui récupère les données du site de la TAG
          */
-        $url = "http://83.145.98.139/otp-rest-servlet/ws/transit/routeData?agency=SEMx01&extended=true&references=true&id=SEM_A&routerId=prod";
+        $url = 'http://83.145.98.139/otp-rest-servlet/ws/transit/routeData?agency=SEMx01&extended=true&references=true&id=SEM_' . $ligne->getCode() . '&routerId=prod';
         $file = file_get_contents($url);
 
         $json = json_decode($file);
@@ -42,25 +46,37 @@ class Stops extends AbstractFixture implements OrderedFixtureInterface
         }
 
         foreach($liste as $key => $val) {
-            $s = new Stop;
-            $s->setName($key);
-            $s->setCode($key);
-            $s->setLat('1.0');
-            $s->setLng('1.0');
+            print_r('key ' . $key);
+            //$s = $manager->getRepository('TramBundle:Stop')->findByName($key);
+
+            $s = null;
+            if(array_key_exists($key, $liste_stops)) {
+                $s = $liste_stops[$key];
+            }
+
+            if(!$s) {
+                $s = new Stop;
+                $s->setName($key);
+                $s->setCode($val[0]);
+                $s->setLat('1.0');
+                $s->setLng('1.0');
+                $liste_stops[$key] = $s;
+            }
 
             $ligne->addStop($s);
             $manager->persist($s);
             $manager->flush();
 
             $timestamp = time()*1000;
-            $timestamp_end = $timestamp + 1*3600*1000;
-            $departure = $manager->getRepository('TramBundle:Destination')->find(1);
+            $timestamp_end = $timestamp + 0.5*3600*1000;
 
-            foreach($val as $code) {
+            foreach($val as $key => $code) {
                 echo "Getting schedule for $code \n";
-        		$url_time = 'http://83.145.98.139/otp-rest-servlet/ws/transit/stopTimesForStop?agency=SEMx01&extended=true&references=true&routeId=SEM_A&id=' . $code . '&startTime=' . $timestamp . '&endTime=' . $timestamp_end . '&routerId=prod';
+        		$url_time = 'http://83.145.98.139/otp-rest-servlet/ws/transit/stopTimesForStop?agency=SEMx01&extended=true&references=true&routeId=SEM_' . $ligne->getCode() . '&id=' . $code . '&startTime=' . $timestamp . '&endTime=' . $timestamp_end . '&routerId=prod';
         		$file = file_get_contents($url_time);
         		$json = json_decode($file);
+
+                $direction = $ligne->getDestinations()[$key];
 
         		$times = $json->stopTimes;
         		foreach($times as $time)
@@ -71,13 +87,10 @@ class Stops extends AbstractFixture implements OrderedFixtureInterface
                     $date = new \DateTime();
                     $date->setTimestamp(($time->time));
 
-                    var_dump($date);
-
-                    //$schedule->setDate(new \DateTime());
                     $schedule->setDate($date);
                     $schedule->setLigne($ligne);
                     $schedule->setStop($s);
-                    $schedule->setDestination($departure);
+                    $schedule->setDestination($direction);
 
                     $manager->persist($schedule);
                     $manager->flush();
@@ -86,19 +99,20 @@ class Stops extends AbstractFixture implements OrderedFixtureInterface
         		}
             }
         }
-
-        $stop = new Stop;
-        $stop->setName('Tutu');
-        $stop->setCode('Lol');
-        $stop->setLat('1.0');
-        $stop->setLng('1.0');
-
-        $ligne_2->addStop($stop);
-
-        $manager->persist($stop);
+        }
+        // $stop = new Stop;
+        // $stop->setName('Tutu');
+        // $stop->setCode('Lol');
+        // $stop->setLat('1.0');
+        // $stop->setLng('1.0');
+        //
+        // $ligne_2->addStop($stop);
+        //
+        // $manager->persist($stop);
         $manager->flush();
 
     }
+
 
     /**
      * {@inheritDoc}

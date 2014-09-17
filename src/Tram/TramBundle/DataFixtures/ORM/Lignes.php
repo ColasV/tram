@@ -48,24 +48,22 @@ class Lignes extends AbstractFixture implements OrderedFixtureInterface
 
         $manager->persist($ligne);
 
-        $ligne = new Ligne;
-        $ligne->setName('Tram C');
-        $ligne->setCode('C');
-        $ligne->setLogo('tramC.png');
-
-        $departure = new Destination;
-        $departure->setName('ST-MARTIN-D\'HERES CONDILLAC-UNIVERSITES');
-        $ligne->addDestination($departure);
-        $manager->persist($departure);
-
-        $arrival = new Destination;
-        $arrival->setName('SEYSSINS LE PRISME');
-        $ligne->addDestination($arrival);
-        $manager->persist($arrival);
-
-        $manager->persist($ligne);
-
-
+        // $ligne = new Ligne;
+        // $ligne->setName('Tram C');
+        // $ligne->setCode('C');
+        // $ligne->setLogo('tramC.png');
+        //
+        // $departure = new Destination;
+        // $departure->setName('ST-MARTIN-D\'HERES CONDILLAC-UNIVERSITES');
+        // $ligne->addDestination($departure);
+        // $manager->persist($departure);
+        //
+        // $arrival = new Destination;
+        // $arrival->setName('SEYSSINS LE PRISME');
+        // $ligne->addDestination($arrival);
+        // $manager->persist($arrival);
+        //
+        // $manager->persist($ligne);
 
         $manager->flush();
     }
