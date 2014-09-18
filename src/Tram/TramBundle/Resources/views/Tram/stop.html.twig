@@ -14,13 +14,9 @@
     <h1>{{ stop.name }}</h1>
 
     {% if stop.presence %}
-    <div class="alert alert-danger" role="alert" id="agentHere">
-        <p class="text-center"><button class="btn btn-danger" onclick="addAgent()">Confirmer contrôlleurs</button></p>
-    </div>
+    <p class="text-center"><button class="btn btn-danger" id="agentHere" onclick="addAgent()">Confirmer contrôlleurs</button></p>
     {% else %}
-    <div class="alert alert-warning" role="alert" id="agentHere">
-        <p class="text-center"><button class="btn btn-warning" onclick="addAgent()">Signaler des contrôlleurs</button></p>
-    </div>
+    <p class="text-center"><button class="btn btn-warning" id="agentHere" onclick="addAgent()">Signaler des contrôlleurs</button></p>
     {% endif %}
 
     <div class="panel-group" id="accordion">
@@ -62,7 +58,7 @@
             req.send();
 
             console.debug("Agent ajouté");
-            $("div#agentHere").replaceWith("<div class=\"alert alert-success\" role=\"alert\"> \
+            $("#agentHere").replaceWith("<div class=\"alert alert-success\" role=\"alert\"> \
                                             <p>Merci pour le signalement</p></div>");
             console.debug("On remplace le message");
         }

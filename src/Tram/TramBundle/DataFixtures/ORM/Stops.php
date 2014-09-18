@@ -45,7 +45,16 @@ class Stops extends AbstractFixture implements OrderedFixtureInterface
         	}
         }
 
-        foreach($liste as $key => $val) {
+        $liste_2 = [];
+
+        foreach($liste as $key => $value) {
+        	$liste_2[$key] = [];
+        	foreach($liste[$key] as $val) {
+        		array_push($liste_2[$key], $val);
+        	}
+        }
+
+        foreach($liste_2 as $key => $val) {
             print_r('key ' . $key);
             //$s = $manager->getRepository('TramBundle:Stop')->findByName($key);
 

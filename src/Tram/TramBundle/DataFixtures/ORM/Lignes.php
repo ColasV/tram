@@ -48,22 +48,56 @@ class Lignes extends AbstractFixture implements OrderedFixtureInterface
 
         $manager->persist($ligne);
 
-        // $ligne = new Ligne;
-        // $ligne->setName('Tram C');
-        // $ligne->setCode('C');
-        // $ligne->setLogo('tramC.png');
-        //
-        // $departure = new Destination;
-        // $departure->setName('ST-MARTIN-D\'HERES CONDILLAC-UNIVERSITES');
-        // $ligne->addDestination($departure);
-        // $manager->persist($departure);
-        //
-        // $arrival = new Destination;
-        // $arrival->setName('SEYSSINS LE PRISME');
-        // $ligne->addDestination($arrival);
-        // $manager->persist($arrival);
-        //
-        // $manager->persist($ligne);
+        $ligne = new Ligne;
+        $ligne->setName('Tram C');
+        $ligne->setCode('C');
+        $ligne->setLogo('tramC.png');
+
+        $departure = new Destination;
+        $departure->setName('ST-MARTIN-D\'HERES CONDILLAC-UNIVERSITES');
+        $ligne->addDestination($departure);
+        $manager->persist($departure);
+
+        $arrival = new Destination;
+        $arrival->setName('SEYSSINS LE PRISME');
+        $ligne->addDestination($arrival);
+        $manager->persist($arrival);
+
+        $manager->persist($ligne);
+
+        $ligne = new Ligne;
+        $ligne->setName('Tram D');
+        $ligne->setCode('D');
+        $ligne->setLogo('tramD.png');
+
+        $departure = new Destination;
+        $departure->setName('SAINT-MARTIN-D\'HERES ETIENNE GRAPPE');
+        $ligne->addDestination($departure);
+        $manager->persist($departure);
+
+        $arrival = new Destination;
+        $arrival->setName('SAINT-MARTIN-D\'HERES LES TAILLEES - UNIVERSITES');
+        $ligne->addDestination($arrival);
+        $manager->persist($arrival);
+
+        $manager->persist($ligne);
+
+        $ligne = new Ligne;
+        $ligne->setName('Tram E');
+        $ligne->setCode('E');
+        $ligne->setLogo('tramE.png');
+
+        $departure = new Destination;
+        $departure->setName('SAINT-MARTIN-LE-VINOUX HOTEL DE VILLE');
+        $ligne->addDestination($departure);
+        $manager->persist($departure);
+
+        $arrival = new Destination;
+        $arrival->setName('GRENOBLE LOUISE MICHEL');
+        $ligne->addDestination($arrival);
+        $manager->persist($arrival);
+
+        $manager->persist($ligne);
 
         $manager->flush();
     }
