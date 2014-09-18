@@ -90,21 +90,23 @@ class Stops extends AbstractFixture implements OrderedFixtureInterface
         		$times = $json->stopTimes;
         		foreach($times as $time)
         		{
-                    echo "Creating schedule $time->time\n";
-                    $schedule = new Schedule;
+                    if($time->phase == 'departure') {
+                        echo "Creating schedule $time->time\n";
+                        $schedule = new Schedule;
 
-                    $date = new \DateTime();
-                    $date->setTimestamp(($time->time));
+                        $date = new \DateTime();
+                        $date->setTimestamp(($time->time));
 
-                    $schedule->setDate($date);
-                    $schedule->setLigne($ligne);
-                    $schedule->setStop($s);
-                    $schedule->setDestination($direction);
+                        $schedule->setDate($date);
+                        $schedule->setLigne($ligne);
+                        $schedule->setStop($s);
+                        $schedule->setDestination($direction);
 
-                    $manager->persist($schedule);
-                    $manager->flush();
+                        $manager->persist($schedule);
+                        $manager->flush();
 
-                    echo "Schedule add\n";
+                        echo "Schedule add\n";
+                    }
         		}
             }
         }

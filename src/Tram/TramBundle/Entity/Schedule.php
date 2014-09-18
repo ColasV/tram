@@ -13,55 +13,37 @@ use Doctrine\ORM\Mapping as ORM;
 class Schedule
 {
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
 
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(name="date", type="datetime")
+     * @ORM\Id
+     * @ORM\Column(name="date", type="string")
      */
     private $date;
 
     /**
    * @ORM\ManyToOne(targetEntity="Tram\TramBundle\Entity\Ligne", inversedBy="schedules")
-   *
+   * @ORM\Id
    * @ORM\JoinColumn(nullable=false)
    */
    private $ligne;
 
    /**
   * @ORM\ManyToOne(targetEntity="Tram\TramBundle\Entity\Stop")
-  *
+  * @ORM\Id
   * @ORM\JoinColumn(nullable=false)
   */
   private $stop;
 
   /**
  * @ORM\ManyToOne(targetEntity="Tram\TramBundle\Entity\Destination")
- *
+ * @ORM\Id
  * @ORM\JoinColumn(nullable=false)
  */
  private $destination;
 
 
 
-
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
     /**
      * Set date
@@ -71,7 +53,7 @@ class Schedule
      */
     public function setDate($date)
     {
-        $this->date = $date;
+        $this->date = $date->format('Y-m-d H-i-s');;
 
         return $this;
     }
@@ -83,7 +65,7 @@ class Schedule
      */
     public function getDate()
     {
-        return $this->date;
+        return \DateTime::createFromFormat('Y-m-d H-i-s', $this->date);;
     }
 
     /**
