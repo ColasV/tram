@@ -1,9 +1,3 @@
 tram:
     resource: "@TramBundle/Resources/config/routing.yml"
     prefix:   /
-root:
-    pattern: /
-    defaults:
-        _controller: FrameworkBundle:Redirect:urlRedirect
-        path: /Lignes
-        permanent: true
