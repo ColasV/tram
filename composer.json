@@ -20,7 +20,8 @@
         "sensio/framework-extra-bundle": "~3.0",
         "incenteev/composer-parameter-handler": "~2.0",
         "doctrine/doctrine-fixtures-bundle": "dev-master",
-        "doctrine/data-fixtures": "@dev"
+        "doctrine/data-fixtures": "@dev",
+        "symfony/dom-crawler": "2.5.4"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"
