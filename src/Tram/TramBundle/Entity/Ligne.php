@@ -302,11 +302,16 @@ class Ligne
      */
      public function getHoraires(Stop $stop, Destination $destination)
      {
-         $criteria = Criteria::create();
-         $criteria->where(Criteria::expr()->eq('stop', $stop));
-         $criteria->andWhere(Criteria::expr()->eq('destination', $destination));
+        $date = new \DateTime();
 
-         return $this->schedules->matching($criteria);
+        $criteria = Criteria::create();
+        $criteria->where(Criteria::expr()->eq('stop', $stop));
+        $criteria->andWhere(Criteria::expr()->eq('destination', $destination));
+        $criteria->andWhere(Criteria::expr()->gte('date', $date->format('Y-m-d H-i-s')));
+
+        $result = $this->schedules->matching($criteria);
+
+        return $result;
      }
 
 
