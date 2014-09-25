@@ -11,3 +11,4 @@
 /composer.phar
 /web/css/
 composer.lock
+/app/sqlite.db
