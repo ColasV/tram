@@ -12,7 +12,7 @@
             <a href="{{ path('tram_ligne', {'code': ligne.code}) }}"> {{ligne.name}} </a>
 
             {% for accident in ligne.accidents %}
-                <a href="#" id="{{ accident.name }}{{ accident.id }}" rel="popover" class="pull-right pop">
+                <a href="#" id="A{{ accident.id }}" rel="popover" class="pull-right pop">
                     <img src="/images/alert.png" />
                 </a>
 
@@ -25,10 +25,16 @@
     {% for ligne in lignes %}
 
         {% for accident in ligne.accidents %}
-            $('#{{ accident.name }}{{ accident.id }}').popover({title : '{{ accident.name }}',content:'<b>{{ accident.date }}</b> <br/> {{ accident.description }}',placement:'left',html:'true'});
+            $('#A{{ accident.id }}').popover({title : '{{ accident.name }}',content:'<b>{{ accident.date }}</b> <br/> {{ accident.description }}',placement:'left',html:'true'});
         {% endfor %}
 
     {% endfor %}
+
+
+    $('.pop').on('click', function (e) {
+        $('.pop').not(this).popover('hide');
+    });
+
     </script>
 
 {% endblock %}

@@ -308,6 +308,7 @@ class Ligne
         $criteria->where(Criteria::expr()->eq('stop', $stop));
         $criteria->andWhere(Criteria::expr()->eq('destination', $destination));
         $criteria->andWhere(Criteria::expr()->gte('date', $date->format('Y-m-d H-i-s')));
+        $criteria->setMaxResults(5);
 
         $result = $this->schedules->matching($criteria);
 

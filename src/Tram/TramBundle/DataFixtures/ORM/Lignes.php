@@ -18,12 +18,12 @@ class Lignes extends AbstractFixture implements OrderedFixtureInterface
         $ligne->setLogo('tramA.png');
 
         $departure = new Destination;
-        $departure->setName('ECHIROLLES DENIS PAPIN');
+        $departure->setName('FONTAINE LA POYA');
         $ligne->addDestination($departure);
         $manager->persist($departure);
 
         $arrival = new Destination;
-        $arrival->setName('FONTAINE LA POYA');
+        $arrival->setName('ECHIROLLES DENIS PAPIN');
         $ligne->addDestination($arrival);
         $manager->persist($arrival);
 
@@ -94,6 +94,23 @@ class Lignes extends AbstractFixture implements OrderedFixtureInterface
 
         $arrival = new Destination;
         $arrival->setName('GRENOBLE LOUISE MICHEL');
+        $ligne->addDestination($arrival);
+        $manager->persist($arrival);
+
+        $manager->persist($ligne);
+
+        $ligne = new Ligne;
+        $ligne->setName('Bus C5');
+        $ligne->setCode('C5');
+        $ligne->setLogo('busC5.png');
+
+        $departure = new Destination;
+        $departure->setName('GRENOBLE Palais de Justice');
+        $ligne->addDestination($departure);
+        $manager->persist($departure);
+
+        $arrival = new Destination;
+        $arrival->setName('GIÈRES Universités - Biologie');
         $ligne->addDestination($arrival);
         $manager->persist($arrival);
 

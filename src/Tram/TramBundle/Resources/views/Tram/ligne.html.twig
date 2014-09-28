@@ -31,6 +31,10 @@
     {% for stop in ligne.stops %}
         $('#{{ stop.code }}').popover({title : 'Contrôleurs signalés',content:'Des contrôleurs ont été signalé à cet arrêt il y a moins de 15 minutes.',placement:'left',html:'true'});
     {% endfor %}
+
+    $('.pop').on('click', function (e) {
+        $('.pop').not(this).popover('hide');
+    });
     </script>
 
 {% endblock %}
