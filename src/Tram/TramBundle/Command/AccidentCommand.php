@@ -71,7 +71,9 @@ class AccidentCommand extends ContainerAwareCommand
                 $manager->flush();
             }
 
-            $logger->info('End of Accident command');
+
         }
+
+        $logger->info('End of Accident command');
     }
 }
