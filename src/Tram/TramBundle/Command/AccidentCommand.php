@@ -6,12 +6,15 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 
 use Symfony\Component\DomCrawler\Crawler;
 use Tram\TramBundle\Entity\Ligne;
 use Tram\TramBundle\Entity\Accident;
 
-class AccidentCommand extends Command
+use Tram\TramBundle\Monolog\PDOHandler;
+
+class AccidentCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
@@ -23,30 +26,31 @@ class AccidentCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        // Get the logger in order to store logging in database
+        $logger = $this->getContainer()->get('logger');
+        $logger->pushHandler(new PDOHandler(new \PDO('sqlite:logs.sqlite')));
+
+        $logger->info('Lauching Accident command');
+
+        // Get the doctrine Manager to execute request
         $manager = $this->getApplication()->getKernel()->getContainer()->get('doctrine')->getManager();
 
+        // Delete all old accidents in order to avoid conflict
         $query = $manager->createQuery('DELETE TramBundle:Accident c');
         $query->execute();
 
         $html = file_get_contents('http://www.tag.fr/89-infotrafic.htm');
 
+        // Crawler to read html file
         $crawler = new Crawler($html);
-
         $c = $crawler->filter('div[id=contenu] ul');
 
-
         foreach($c->children() as $t) {
-            //print_r($t->childNodes);
-
             $child = iterator_to_array($t->childNodes);
 
-
             // Correspond à l'entête
-            //print_r($child[1]);
             $code = trim(explode(':', $child[1]->textContent)[0]);
             // Correspond au corps
-            //print_r($child[3]);
-            //print_r(iterator_to_array(iterator_to_array(iterator_to_array(iterator_to_array(iterator_to_array($child[3]->childNodes)[1]->childNodes)[0]->childNodes)[1]->childNodes)[3]->childNodes));
             $corps = iterator_to_array(iterator_to_array(iterator_to_array(iterator_to_array(iterator_to_array($child[3]->childNodes)[1]->childNodes)[0]->childNodes)[1]->childNodes)[3]->childNodes);
 
             $name = trim($corps[1]->textContent);
@@ -66,6 +70,8 @@ class AccidentCommand extends Command
                 $manager->persist($accident);
                 $manager->flush();
             }
+
+            $logger->info('End of Accident command');
         }
     }
 }
