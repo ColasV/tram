@@ -12,3 +12,4 @@
 /web/css/
 composer.lock
 /app/sqlite.db
+*.sqlite
