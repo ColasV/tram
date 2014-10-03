@@ -13,3 +13,14 @@ agent_add:
 agent_show:
     path:     /Agent/{stop}
     defaults: { _controller: TramBundle:Agent:showAgent }
+ 
+# API part
+tram_api_lignes:
+    path:     /Lignes.json
+    defaults: { _controller: TramBundle:API:index }
+tram_api_ligne:
+    path:     /Lignes/{code}/Stops.json
+    defaults: { _controller: TramBundle:API:ligne}
+tram_api_stop:
+    path:     /Lignes/{code_ligne}/Stops.json/{code_stop}
+    defaults: { _controller: TramBundle:API:stop}
