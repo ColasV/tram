@@ -13,3 +13,4 @@
 composer.lock
 /app/sqlite.db
 *.sqlite
+/nbproject/private/
