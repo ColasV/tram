@@ -12,4 +12,27 @@ use Doctrine\ORM\EntityRepository;
  */
 class StopRepository extends EntityRepository
 {
+  public function findByCodeAndKeyWord($code, $keyword) {
+    $qb = $this->createQueryBuilder('a');
+    
+    $qb->join('a.lignes', 'l')
+       ->addSelect();
+    
+    $qb->where('l.code = :code')
+       ->setParameter('code', $code)
+    ;
+    
+    if ($keyword) {
+      $qb->andWhere($qb->expr()->like('a.name', ':name'))
+         ->setParameter('name', '%' . $keyword . '%');
+    }
+    
+    $result = $qb
+    ->getQuery()
+    ->getResult()
+    ;
+    
+    return $result;
+    
+  }
 }

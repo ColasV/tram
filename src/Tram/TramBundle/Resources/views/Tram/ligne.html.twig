@@ -12,6 +12,12 @@
 {% block body %}
     <h1><img src="{{ ligne.logourl }}" />{{ ligne.name }}</h1>
 
+    <form method="POST" action="">
+	<div class="form-group">
+            <input type="text" name="recherche" id="champ_recherche" class="form-control" placeholder="Entrez un arrêt..."/>
+	</div>
+    </form>
+    <div id="resultat">
     {% if ligne.stops.count > 0 %}
     <ul class="list-group">
         {% for stop in ligne.stops %}
@@ -26,6 +32,7 @@
         {% endfor %}
     </ul>
     {% endif %}
+    </div>
 
     <script>
     {% for stop in ligne.stops %}

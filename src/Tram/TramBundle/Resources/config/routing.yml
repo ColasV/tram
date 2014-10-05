@@ -7,20 +7,22 @@ tram_ligne:
 tram_stop:
     path:     /Lignes/{code_ligne}/Stops/{code_stop}
     defaults: { _controller: TramBundle:Ligne:stop}
+
+# API agent
 agent_add:
-    path:     /Agent/add/{stop}
+    path:     /api/Agent/add/{stop}
     defaults: { _controller: TramBundle:Agent:addAgent }
 agent_show:
-    path:     /Agent/{stop}
+    path:     /api/Agent/{stop}
     defaults: { _controller: TramBundle:Agent:showAgent }
  
-# API part
+# API ligne
 tram_api_lignes:
-    path:     /Lignes.json
+    path:     /api/Lignes
     defaults: { _controller: TramBundle:API:index }
-tram_api_ligne:
-    path:     /Lignes/{code}/Stops.json
+tram_api_stops:
+    path:     /api/Lignes/{code}/Stops
     defaults: { _controller: TramBundle:API:ligne}
 tram_api_stop:
-    path:     /Lignes/{code_ligne}/Stops.json/{code_stop}
+    path:     /api/Lignes/{code_ligne}/Stops/{code_stop}
     defaults: { _controller: TramBundle:API:stop}
