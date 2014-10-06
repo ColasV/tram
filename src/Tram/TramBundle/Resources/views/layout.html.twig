@@ -13,7 +13,7 @@
                 <link href="{{ asset_url }}" rel="stylesheet" type="text/css" />
     {% endstylesheets %}
     
-    {% javascripts '@TramBundle/Resources/public/js/jquery.js' %}
+    {% javascripts '@TramBundle/Resources/public/js/jquery.min.js' %}
         <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
     
@@ -24,6 +24,9 @@
     {% javascripts '@TramBundle/Resources/public/js/stop_search.js' %}
         <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
+    
+    {% block head %}
+    {% endblock %}
 
     {% block title %}
         <title>Index</title>

@@ -1,5 +1,11 @@
 {% extends "TramBundle::layout.html.twig" %}
 
+{% block head %}
+    <script type="text/javascript"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDEDqu-4RAXAUsXo6CZ7tvi7U4_sd3AE3k&sensor=false">
+    </script>
+{% endblock %}
+
 {% block title %}
     <title>{{ stop.name }}</title>
 {% endblock %}
@@ -11,7 +17,7 @@
 {% endblock %}
 
 {% block body %}
-    <h1>{{ stop.name }}</h1>
+    <h1 id="stop_name">{{ stop.name }}</h1>
 
     {% if stop.presence %}
     <p class="text-center"><button class="btn btn-danger" id="agentHere" onclick="addAgent()">Confirmer contrôlleurs</button></p>
@@ -63,4 +69,82 @@
             console.debug("On remplace le message");
         }
     </script>
+    
+    <script>
+    var latitude;
+    var longitude;
+    var pos;
+    var map;
+    var directionsDisplay;
+    var directionsService = new google.maps.DirectionsService();
+
+    if (navigator.geolocation)
+      navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+    else
+      alert("Dommage... Votre navigateur ne prend pas en compte la géolocalisation HTML5");
+
+
+    function successCallback(position) {
+      latitude = position.coords.latitude;
+      longitude = position.coords.longitude;
+
+      // On ne charge la carte que si on a réussi à localiser la personne
+      initialize();
+      // On calcule ensuite le chemin
+      calculChemin();
+    };
+
+    function initialize() {
+      directionsDisplay = new google.maps.DirectionsRenderer();
+      pos = new google.maps.LatLng(latitude,longitude);
+      var mapOptions = {
+          center: pos,
+            zoom: 16
+        };
+      map = new google.maps.Map(document.getElementById("map-canvas"),mapOptions);
+      directionsDisplay.setMap(map);
+
+      google.maps.event.addDomListener(window, 'load', initialize);
+
+    };
+
+    function calculChemin() {
+      var start = pos;
+        var end = document.getElementById("stop_name").innerHTML;
+        var request = {
+          origin:start,
+          destination:end,
+          travelMode: google.maps.TravelMode.WALKING
+      };
+        directionsService.route(request, function(response, status) {
+        if (status == google.maps.DirectionsStatus.OK) {
+          directionsDisplay.setDirections(response);
+        }
+      });
+    };
+
+
+
+    function errorCallback(error){
+          switch(error.code){
+            case error.PERMISSION_DENIED:
+              alert("L'utilisateur n'a pas autorisé l'accès à sa position");
+              break;
+            case error.POSITION_UNAVAILABLE:
+              alert("L'emplacement de l'utilisateur n'a pas pu être déterminé");
+              break;
+            case error.TIMEOUT:
+              alert("Le service n'a pas répondu à temps");
+              break;
+            }
+    };
+
+    </script>
+    
+    <div class="row">
+        <div class="col-xs-12">
+            <div id="map-canvas" style="height:300px; margin-top:10px; margin-bottom:10px;">
+            </div>
+        </div>
+    </div>
 {% endblock %}
