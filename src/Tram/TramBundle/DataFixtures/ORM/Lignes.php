@@ -100,6 +100,40 @@ class Lignes extends AbstractFixture implements OrderedFixtureInterface
         $manager->persist($ligne);
 
         $ligne = new Ligne;
+        $ligne->setName('Bus C1');
+        $ligne->setCode('C1');
+        $ligne->setLogo('busC1.png');
+
+        $departure = new Destination;
+        $departure->setName('GRENOBLE Cité Jean Macé');
+        $ligne->addDestination($departure);
+        $manager->persist($departure);
+
+        $arrival = new Destination;
+        $arrival->setName('MEYLAN Maupertuis');
+        $ligne->addDestination($arrival);
+        $manager->persist($arrival);
+
+        $manager->persist($ligne);
+        
+        $ligne = new Ligne;
+        $ligne->setName('Bus C2');
+        $ligne->setCode('C2');
+        $ligne->setLogo('busC2.png');
+
+        $departure = new Destination;
+        $departure->setName('GRENOBLE Louise Michel');
+        $ligne->addDestination($departure);
+        $manager->persist($departure);
+
+        $arrival = new Destination;
+        $arrival->setName('CLAIX Pont Rouge');
+        $ligne->addDestination($arrival);
+        $manager->persist($arrival);
+
+        $manager->persist($ligne);
+        
+        $ligne = new Ligne;
         $ligne->setName('Bus C5');
         $ligne->setCode('C5');
         $ligne->setLogo('busC5.png');
