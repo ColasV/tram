@@ -61,8 +61,20 @@ $(function(){
 					//on fait disparaître le loader
 					$("img[alt='loader']").css("display","none");
 					//on fait apparaître le résultat dans la div d'id "resultat"
-
-					$("#resultat").html(code_html);
+					//console.log(code_html);
+                                        var out = "";
+                                        for(i = 0; i<code_html.length; i++) {
+                                            out += '<li class="list-group-item">'
+                                            + '<a href="' + window.location.pathname + '/' + code_html[i].code + '">' + code_html[i].name + '</a>';
+                                           if(code_html[i].agent) {
+                                            out += '<a href="#" rel="popover" id="' + code_html[i].code + '"class="pull-right pop">'
+                                              +  '<img src="/images/red-dot.png" />'
+                                            + '</a>';
+                                           }
+                                           out += '</li>';
+                                        }
+                                        //console.log(out);
+					$("#resultat").html(out);
 				}
 			});
 		}
