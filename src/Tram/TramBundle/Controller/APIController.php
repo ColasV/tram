@@ -12,27 +12,12 @@ class APIController extends Controller
   {
     $doctrine = $this->getDoctrine()->getManager();
     $rep = $doctrine->getRepository('TramBundle:Ligne');
-
     $res = $rep->findAll();
-
     if ($res) {
       $json = [];
-      
       foreach($res as $ligne) {
-        $destinations = [];
-        foreach($ligne->getDestinations() as $destination) {
-          array_push($destinations, $destination->getName());
-        }
-        
-        $accidents = [];
-        foreach($ligne->getAccidents() as $accident) {
-          $a = array('name' => $accident->getName(),
-                     'date' => $accident->getDate(),
-                     'description' => $accident->getDescription());
-          
-          array_push($accidents, $a);
-        }
-        
+        $destinations = $this->getDestinations($ligne->getDestinations());
+        $accidents = $this->getAccidents($ligne->getAccidents());
         array_push($json, array('id' => $ligne->getId(),
                                 'name' => $ligne->getName(),
                                 'code' => $ligne->getCode(),
@@ -40,14 +25,12 @@ class APIController extends Controller
                                 'accidents' => $accidents,
                                 'destinations' => $destinations));
       }
-      
       $response = new Response(json_encode($json));
       $response->setStatusCode(200);        
     } else {
       $response = new Response(json_encode(array('error' => '404')));
       $response->setStatusCode(404);
     }
-    
     $response->headers->set('Content-Type', 'application/json');
     return $response;
   }
@@ -64,13 +47,11 @@ class APIController extends Controller
         if($res) {
           $stops = $res;
           $json = [];
-          
           foreach($stops as $stop) {
             array_push($json, array('name' => $stop->getName(),
                                     'code' => $stop->getCode(),
                                     'agent' => $stop->getPresence()));
           }
-                    
           $response = new Response(json_encode($json));
           $response->setStatusCode(200);
         } else {
@@ -94,8 +75,12 @@ class APIController extends Controller
       foreach($stop->getLignes() as $ligne) {
         $destinations = [];
         foreach($ligne->getDestinations() as $destination) {
-          array_push($destinations, $destination->getName());
+          $schedules = $this->getSchedules($ligne->getHoraires($stop, $destination));
+                   
+          array_push($destinations, array('name' => $destination->getName(),
+                                          'schedules' => $schedules));
         }
+        
         $l = array('name' => $ligne->getName(),
                     'destinations' => $destinations);
         
@@ -113,5 +98,38 @@ class APIController extends Controller
     }
     $response->headers->set('Content-Type', 'application/json');
     return $response;
+  }
+  
+  private function getSchedules($schedules) {
+    $s = [];
+          
+    foreach($schedules as $schedule) {
+      array_push($s, $schedule->getDate());
+    }
+    
+    return $s;
+  }
+  
+  private function getAccidents($accidents) {
+    $accidents_array = [];
+        foreach($accidents as $accident) {
+          $a = array('name' => $accident->getName(),
+                     'date' => $accident->getDate(),
+                     'description' => $accident->getDescription());
+          
+          array_push($accidents_array, $a);
+        }
+        
+    return $accidents_array;
+  }
+  
+  private function getDestinations($destinations) {
+    $d = [];
+    
+    foreach($destinations as $destination) {
+      array_push($d, array('name' => $destination->getName()));
+    }
+    
+    return $d;
   }
 }
