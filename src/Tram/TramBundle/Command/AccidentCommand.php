@@ -39,31 +39,39 @@ class AccidentCommand extends ContainerAwareCommand
         $query = $manager->createQuery('DELETE TramBundle:Accident c');
         $query->execute();
 
-        $html = file_get_contents('http://www.tag.fr/89-infotrafic.htm');
+        $html = file_get_contents('http://www.tag.fr/rss_info_trafic.php');
 
         // Crawler to read html file
         $crawler = new Crawler($html);
-        $c = $crawler->filter('div[id=contenu] ul');
+        $c = $crawler->filter('rss channel item');
 
-        foreach($c->children() as $t) {
+        foreach($c as $t) {
             $child = iterator_to_array($t->childNodes);
-
-            // Correspond à l'entête
-            $code = trim(explode(':', $child[1]->textContent)[0]);
-            // Correspond au corps
-            $corps = iterator_to_array(iterator_to_array(iterator_to_array(iterator_to_array(iterator_to_array($child[3]->childNodes)[1]->childNodes)[0]->childNodes)[1]->childNodes)[3]->childNodes);
-
-            $name = trim($corps[1]->textContent);
-            $date = trim($corps[3]->textContent);
-            $content = trim($corps[5]->textContent);
-
+            //print_r($t);
+            
+            $name = trim($child[3]->textContent);
+            
+            $main = $child[5]->textContent;
+            
+            $date = trim(strip_tags(explode('<br>', $main)[0]));
+            
+          
+            $description = preg_replace_callback("/(&#[0-9]+;)/", 
+                    function($m) { return mb_convert_encoding($m[1], "UTF-8", "HTML-ENTITIES"); }, 
+                            strip_tags(explode('<br>', $main)[1])); 
+            
+            
+            $url = $child[7]->textContent;
+            $code = explode('/', $url)[4];
+                 
+            
             $ligne = $manager->getRepository('TramBundle:Ligne')->findOneByCode($code);
             if ($ligne) {
                 $output->writeln('<info>Adding accident for ' . $code . '</info>');
                 $accident = new Accident;
                 $accident->setName($name);
                 $accident->setDate($date);
-                $accident->setDescription($content);
+                $accident->setDescription($description);
 
                 $accident->setLigne($ligne);
 
