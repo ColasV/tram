@@ -55,8 +55,7 @@ class APIController extends Controller
           $response = new Response(json_encode($json));
           $response->setStatusCode(200);
         } else {
-          $response = new Response(json_encode(array('error' => '404',
-                                                      'data' => print_r($res))));
+          $response = new Response(json_encode(array('error' => '404')));
           $response->setStatusCode(404);
         }
         
