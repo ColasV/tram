@@ -32,6 +32,8 @@ class ScheduleCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        ini_set('memory_limit', '512M');
+
         // Get the logger in order to store logging in database
         $logger = $this->getContainer()->get('logger');
         $logger->pushHandler(new PDOHandler(new \PDO('sqlite:logs.sqlite')));
@@ -104,7 +106,10 @@ class ScheduleCommand extends ContainerAwareCommand
                     $times = $json->stopTimes;
                     foreach($times as $time)
                     {
-                        if($time->phase == 'departure') {
+                        var_dump(strtolower($time->direction));
+                        var_dump(strtolower($direction->getName()));
+
+                        if($time->phase == 'departure' && strtolower($time->direction) == strtolower($direction->getName())) {
                             $schedule = new Schedule;
 
                             $date = new \DateTime();
@@ -119,6 +124,7 @@ class ScheduleCommand extends ContainerAwareCommand
                         }
                     }
                     $manager->flush();
+                    $file = null;
                 }
             }
         }
