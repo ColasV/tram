@@ -29,20 +29,20 @@
     {% for ligne in stop.lignes %}
         <h3><img src="{{ ligne.logourl }}" />{{ ligne.name }}</h3>
 
-        {% for destination in ligne.destinations %}
+        {% for direction in ligne.directions %}
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h4 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{destination.hash}}">
-                    {{ destination.name }}
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{direction.hash}}">
+                    {{ direction.name }}
                     </a>
                 </h4>
             </div>
 
-            <div id="collapse{{destination.hash}}" class="panel-collapse collapse">
+            <div id="collapse{{direction.hash}}" class="panel-collapse collapse">
             <div class="panel-body">
                 <div class="list-group">
-                {% for schedule in ligne.getHoraires(stop, destination) %}
+                {% for schedule in ligne.getHoraires(stop, direction) %}
                     <div class="list-group-item">
                         {{ schedule.date|date("H:i") }}
                     </div>
@@ -69,7 +69,7 @@
             console.debug("On remplace le message");
         }
     </script>
-    
+
     <script>
     var latitude;
     var longitude;
@@ -140,7 +140,7 @@
     };
 
     </script>
-    
+
     <!-- Display Google maps -->
     <div class="row">
         <div class="col-xs-12">

@@ -89,36 +89,52 @@ class ScheduleCommand extends ContainerAwareCommand
                 }
             }
 
+            //print_r($liste_2);
+
             foreach($liste_2 as $key => $val) {
+                //var_dump($key);
                 $s = $manager->getRepository('TramBundle:Stop')->findOneByName($key);
 
                 $timestamp = time()*1000;
                 $timestamp_end = $timestamp + $length*3600*1000;
 
+                $directionId = 0;
+
                 foreach($val as $key => $code) {
                     $output->writeln('<info>Getting schedule for ' . $code . ' ( ' . $s->getName() . ' )</info>');
                     $url_time = 'http://83.145.98.139/otp-rest-servlet/ws/transit/stopTimesForStop?agency=SEMx01&extended=true&references=true&routeId=SEM_' . $ligne->getCode() . '&id=' . $code . '&startTime=' . $timestamp . '&endTime=' . $timestamp_end . '&routerId=prod';
+
+                    $output->writeln($url_time);
+
                     $file = file_get_contents($url_time);
                     $json = json_decode($file);
 
-                    $direction = $ligne->getDestinations()[$key];
+                    // Ici on a pris un arrêt dans 1 sens donné (on sait pas lequel)
 
+                    //$direction = $ligne->getDirections()[$key];
                     $times = $json->stopTimes;
+
                     foreach($times as $time)
                     {
-                        var_dump(strtolower($time->direction));
-                        var_dump(strtolower($direction->getName()));
+                        if($time->phase == 'departure') {
+                            /* On récupère en base la direction associé */
+                            $directionId = $time->trip->directionId;
+                            $direction = $ligne->getDirectionById($directionId);
 
-                        if($time->phase == 'departure' && strtolower($time->direction) == strtolower($direction->getName())) {
+                            /* On s'en fout de la direction, ce qu'on veut c'est le bon ordre des directions */
+                            var_dump(str_replace('-',' ',$time->direction));
+                            var_dump(str_replace('-',' ',$direction->getName()));
+
                             $schedule = new Schedule;
 
                             $date = new \DateTime();
                             $date->setTimestamp(($time->time));
+                            $output->writeln($time->time);
 
                             $schedule->setDate($date);
                             $schedule->setLigne($ligne);
                             $schedule->setStop($s);
-                            $schedule->setDestination($direction);
+                            $schedule->setDirection($direction);
 
                             $manager->persist($schedule);
                         }

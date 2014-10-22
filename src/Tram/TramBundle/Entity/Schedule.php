@@ -36,11 +36,11 @@ class Schedule
   private $stop;
 
   /**
- * @ORM\ManyToOne(targetEntity="Tram\TramBundle\Entity\Destination")
+ * @ORM\ManyToOne(targetEntity="Tram\TramBundle\Entity\Direction")
  * @ORM\Id
  * @ORM\JoinColumn(nullable=false)
  */
- private $destination;
+ private $direction;
 
 
 
@@ -132,5 +132,28 @@ class Schedule
     public function getDestination()
     {
         return $this->destination;
+    }
+
+    /**
+     * Set direction
+     *
+     * @param \Tram\TramBundle\Entity\Direction $direction
+     * @return Schedule
+     */
+    public function setDirection(\Tram\TramBundle\Entity\Direction $direction)
+    {
+        $this->direction = $direction;
+    
+        return $this;
+    }
+
+    /**
+     * Get direction
+     *
+     * @return \Tram\TramBundle\Entity\Direction 
+     */
+    public function getDirection()
+    {
+        return $this->direction;
     }
 }

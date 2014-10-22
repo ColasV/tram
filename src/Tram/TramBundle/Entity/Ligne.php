@@ -44,9 +44,9 @@ class Ligne
     private $logo;
 
     /**
-     * @ORM\OneToMany(targetEntity="Tram\TramBundle\Entity\Destination", cascade={"persist"}, mappedBy="ligne")
+     * @ORM\OneToMany(targetEntity="Tram\TramBundle\Entity\Direction", cascade={"persist"}, mappedBy="ligne")
      */
-    private $destinations;
+    private $directions;
 
     /**
     * @ORM\ManyToMany(targetEntity="Tram\TramBundle\Entity\Stop", cascade={"persist"}, mappedBy="lignes")
@@ -300,13 +300,13 @@ class Ligne
     /**
      *
      */
-     public function getHoraires(Stop $stop, Destination $destination)
+     public function getHoraires(Stop $stop, Direction $destination)
      {
         $date = new \DateTime();
 
         $criteria = Criteria::create();
         $criteria->where(Criteria::expr()->eq('stop', $stop));
-        $criteria->andWhere(Criteria::expr()->eq('destination', $destination));
+        $criteria->andWhere(Criteria::expr()->eq('direction', $destination));
         $criteria->andWhere(Criteria::expr()->gte('date', $date->format('Y-m-d H-i-s')));
         $criteria->setMaxResults(5);
 
@@ -322,10 +322,10 @@ class Ligne
      * @param \Tram\TramBundle\Entity\Destination $destinations
      * @return Ligne
      */
-    public function addDestination(\Tram\TramBundle\Entity\Destination $destinations)
+    public function addDirection(\Tram\TramBundle\Entity\Direction $directions)
     {
-        $this->destinations[] = $destinations;
-        $destinations->setLigne($this);
+        $this->directions[] = $directions;
+        $directions->setLigne($this);
         return $this;
     }
 
@@ -334,9 +334,9 @@ class Ligne
      *
      * @param \Tram\TramBundle\Entity\Destination $destinations
      */
-    public function removeDestination(\Tram\TramBundle\Entity\Destination $destinations)
+    public function removeDirection(\Tram\TramBundle\Entity\Direction $destinations)
     {
-        $this->destinations->removeElement($destinations);
+        $this->directions->removeElement($destinations);
     }
 
     /**
@@ -344,8 +344,18 @@ class Ligne
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getDestinations()
+    public function getDirections()
     {
-        return $this->destinations;
+        return $this->directions;
     }
+
+    public function getDirectionById($id) {
+        foreach($this->directions as $direction) {
+            if ($direction->getDirection() == $id) {
+                return $direction;
+            }
+        }
+    }
+
+
 }

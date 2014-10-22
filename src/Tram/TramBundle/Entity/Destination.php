@@ -29,21 +29,11 @@ class Destination
     private $name;
 
     /**
-   * @ORM\ManyToOne(targetEntity="Tram\TramBundle\Entity\Ligne", inversedBy="destinations")
-   * @ORM\JoinColumn(nullable=false)
-   */
-   private $ligne;
+     * @ORM\ManyToOne(targetEntity="Tram\TramBundle\Entity\Direction", inversedBy="destinations")
+     */
+    private $direction;
 
-
-
-    private $hash;
-
-
-    public function __construct()
-    {
-        $this->hash = uniqid();
-    }
-
+    
     /**
      * Get id
      *
@@ -76,14 +66,6 @@ class Destination
         return $this->name;
     }
 
-    public function getHash()
-    {
-        if(empty($this->hash)) {
-            $this->hash = uniqid();
-        }
-        return $this->hash;
-    }
-
     /**
      * Set ligne
      *
@@ -105,5 +87,28 @@ class Destination
     public function getLigne()
     {
         return $this->ligne;
+    }
+
+    /**
+     * Set direction
+     *
+     * @param \Tram\TramBundle\Entity\Direction $direction
+     * @return Destination
+     */
+    public function setDirection(\Tram\TramBundle\Entity\Direction $direction = null)
+    {
+        $this->direction = $direction;
+
+        return $this;
+    }
+
+    /**
+     * Get direction
+     *
+     * @return \Tram\TramBundle\Entity\Direction
+     */
+    public function getDirection()
+    {
+        return $this->direction;
     }
 }

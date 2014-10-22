@@ -12,4 +12,17 @@ use Doctrine\ORM\EntityRepository;
  */
 class LigneRepository extends EntityRepository
 {
+  public function findAllLignes() {
+    $qb = $this->createQueryBuilder('a');
+
+    $qb->join('a.accidents', 'l')
+       ->addSelect();
+
+    $result = $qb
+    ->getQuery()
+    ->getResult()
+    ;
+
+    return $result;
+  }
 }

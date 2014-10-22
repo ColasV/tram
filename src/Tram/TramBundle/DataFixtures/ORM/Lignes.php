@@ -6,151 +6,56 @@ use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Tram\TramBundle\Entity\Ligne;
+use Tram\TramBundle\Entity\Direction;
 use Tram\TramBundle\Entity\Destination;
 
 class Lignes extends AbstractFixture implements OrderedFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
-        $ligne = new Ligne;
-        $ligne->setName('Tram A');
-        $ligne->setCode('A');
-        $ligne->setLogo('tramA.png');
+        $a = array('A', 'B', 'C', 'D', 'E', 'C1', 'C2', 'C3', 'C4', 'C5', 'C6');
+        foreach($a as $l) {
+            $url = 'http://83.145.98.139/otp-rest-servlet/ws/transit/routeData?agency=SEMx01&extended=false&references=true&id=SEM_' . $l . '&routerId=prod';
+            $file = file_get_contents($url);
+            $json = json_decode($file);
 
-        $departure = new Destination;
-        $departure->setName('FONTAINE LA POYA');
-        $ligne->addDestination($departure);
-        $manager->persist($departure);
+            $route = $json->routeData[0]->route;
+            $names = explode(" / ", $route->routeLongName);
 
-        $arrival = new Destination;
-        $arrival->setName('ECHIROLLES DENIS PAPIN');
-        $ligne->addDestination($arrival);
-        $manager->persist($arrival);
+            $ligne = new Ligne;
+            $name = 'Ligne ' . $l;
+            $ligne->setName($name);
+            $ligne->setCode($l);
+            $ligne->setLogo('logo' . $l . '.png');
 
-        $this->addReference('ligneA', $ligne);
+            $i = 0;
 
-        $manager->persist($ligne);
+            foreach($names as $name) {
+                $direction = new Direction;
+                $direction->setName($name);
+                $direction->setDirection($i);
+                $ligne->addDirection($direction);
+                $manager->persist($direction);
 
-        $ligne = new Ligne;
-        $ligne->setName('Tram B');
-        $ligne->setCode('B');
-        $ligne->setLogo('tramB.png');
+                $variants = $json->routeData[0]->variants;
 
-        $departure = new Destination;
-        $departure->setName('GRENOBLE CITE INTERNATIONALE');
-        $ligne->addDestination($departure);
-        $manager->persist($departure);
+                foreach($variants as $variant) {
+                    if ($variant->direction == $i) {
+                        $destination = new Destination;
+                        $destination->setName($variant->trips[0]->headsign);
+                        $destination->setDirection($direction);
 
-        $arrival = new Destination;
-        $arrival->setName('GIERES PLAINE DES SPORTS');
-        $ligne->addDestination($arrival);
-        $manager->persist($arrival);
+                        $manager->persist($destination);
+                    }
+                }
 
-        $manager->persist($ligne);
+                $i += 1;
+            }
 
-        $ligne = new Ligne;
-        $ligne->setName('Tram C');
-        $ligne->setCode('C');
-        $ligne->setLogo('tramC.png');
+            $manager->persist($ligne);
 
-        $departure = new Destination;
-        $departure->setName('ST-MARTIN-D\'HERES CONDILLAC-UNIVERSITES');
-        $ligne->addDestination($departure);
-        $manager->persist($departure);
-
-        $arrival = new Destination;
-        $arrival->setName('SEYSSINS LE PRISME');
-        $ligne->addDestination($arrival);
-        $manager->persist($arrival);
-
-        $manager->persist($ligne);
-
-        $ligne = new Ligne;
-        $ligne->setName('Tram D');
-        $ligne->setCode('D');
-        $ligne->setLogo('tramD.png');
-
-        $departure = new Destination;
-        $departure->setName('SAINT-MARTIN-D\'HERES ETIENNE GRAPPE');
-        $ligne->addDestination($departure);
-        $manager->persist($departure);
-
-        $arrival = new Destination;
-        $arrival->setName('SAINT-MARTIN-D\'HERES LES TAILLEES - UNIVERSITES');
-        $ligne->addDestination($arrival);
-        $manager->persist($arrival);
-
-        $manager->persist($ligne);
-
-        $ligne = new Ligne;
-        $ligne->setName('Tram E');
-        $ligne->setCode('E');
-        $ligne->setLogo('tramE.png');
-
-        $departure = new Destination;
-        $departure->setName('SAINT-MARTIN-LE-VINOUX HOTEL DE VILLE');
-        $ligne->addDestination($departure);
-        $manager->persist($departure);
-
-        $arrival = new Destination;
-        $arrival->setName('GRENOBLE LOUISE MICHEL');
-        $ligne->addDestination($arrival);
-        $manager->persist($arrival);
-
-        $manager->persist($ligne);
-
-        $ligne = new Ligne;
-        $ligne->setName('Bus C1');
-        $ligne->setCode('C1');
-        $ligne->setLogo('busC1.png');
-
-        $departure = new Destination;
-        $departure->setName('GRENOBLE Cité Jean Macé');
-        $ligne->addDestination($departure);
-        $manager->persist($departure);
-
-        $arrival = new Destination;
-        $arrival->setName('MEYLAN Maupertuis');
-        $ligne->addDestination($arrival);
-        $manager->persist($arrival);
-
-        $manager->persist($ligne);
-        
-        $ligne = new Ligne;
-        $ligne->setName('Bus C2');
-        $ligne->setCode('C2');
-        $ligne->setLogo('busC2.png');
-
-        $departure = new Destination;
-        $departure->setName('GRENOBLE Louise Michel');
-        $ligne->addDestination($departure);
-        $manager->persist($departure);
-
-        $arrival = new Destination;
-        $arrival->setName('CLAIX Pont Rouge');
-        $ligne->addDestination($arrival);
-        $manager->persist($arrival);
-
-        $manager->persist($ligne);
-        
-        $ligne = new Ligne;
-        $ligne->setName('Bus C5');
-        $ligne->setCode('C5');
-        $ligne->setLogo('busC5.png');
-
-        $departure = new Destination;
-        $departure->setName('GRENOBLE Palais de Justice');
-        $ligne->addDestination($departure);
-        $manager->persist($departure);
-
-        $arrival = new Destination;
-        $arrival->setName('GIÈRES Universités - Biologie');
-        $ligne->addDestination($arrival);
-        $manager->persist($arrival);
-
-        $manager->persist($ligne);
-
-        $manager->flush();
+            $manager->flush();
+        }
     }
 
     /**
