@@ -68,3 +68,10 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+
+# Services
+services:
+    my.listener:
+        class: Tram\TramBundle\Listener\ScheduleUniq
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }
