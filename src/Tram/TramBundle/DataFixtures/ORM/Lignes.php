@@ -20,7 +20,17 @@ class Lignes extends AbstractFixture implements OrderedFixtureInterface
             $json = json_decode($file);
 
             $route = $json->routeData[0]->route;
-            $names = explode(" / ", $route->routeLongName);
+
+            $liste_symbol = array(" / ", "/ ", " - ");
+
+            foreach($liste_symbol as $symbol) {
+                $names = explode($symbol, $route->routeLongName);
+
+                if (count($names) == 2) {
+                    break;
+                }
+            }
+
 
             $ligne = new Ligne;
             $name = 'Ligne ' . $l;
@@ -30,9 +40,14 @@ class Lignes extends AbstractFixture implements OrderedFixtureInterface
 
             $i = 0;
 
+            echo "Adding " . $name . "\n";
+
             foreach($names as $name) {
                 $direction = new Direction;
                 $direction->setName($name);
+
+                echo $name . "\n";
+
                 $direction->setDirection($i);
                 $ligne->addDirection($direction);
                 $manager->persist($direction);
