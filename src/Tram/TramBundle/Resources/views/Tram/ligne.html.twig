@@ -29,7 +29,7 @@
             <li class="list-group-item">
                 <a href="{{ path('tram_stop', {'code_ligne': ligne.code, 'code_stop': stop.code}) }}">{{ stop.name }}</a>
                     {% if stop.presence %}
-                        <a href="#" rel="popover" id="{{stop.code}}"class="pull-right pop">
+                        <a rel="popover" id="{{stop.code}}" class="pull-right pop">
                             <img src="/images/red-dot.png" />
                         </a>
                     {% endif %}

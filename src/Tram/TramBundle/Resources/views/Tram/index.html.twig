@@ -5,6 +5,8 @@
 {% endblock %}
 
 {% block body %}
+    <h1 class="hidden-xs">Lignes</h1>
+
     <ul class="list-group">
     {% for ligne in lignes %}
         <li class="list-group-item">
@@ -12,7 +14,7 @@
             <a href="{{ path('tram_ligne', {'code': ligne.code}) }}"> {{ligne.name}} </a>
 
             {% for accident in ligne.accidents %}
-                <a href="#" id="A{{ accident.id }}" rel="popover" class="pull-right pop">
+                <a id="A{{ accident.id }}" rel="popover" class="pull-right pop">
                     <img src="/images/alert.png" />
                 </a>
 
