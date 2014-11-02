@@ -1,5 +1,5 @@
 tram_homepage:
-    path:     /Lignes/
+    path:     /Lignes
     defaults: { _controller: TramBundle:Ligne:index }
 tram_ligne:
     path:     /Lignes/{code}/Stops
@@ -7,6 +7,9 @@ tram_ligne:
 tram_stop:
     path:     /Lignes/{code_ligne}/Stops/{code_stop}
     defaults: { _controller: TramBundle:Ligne:stop}
+tram_position:
+    path:     /Position
+    defaults: { _controller: TramBundle:Ligne:position}
 
 # API agent
 agent_add:
@@ -15,7 +18,7 @@ agent_add:
 agent_show:
     path:     /api/Agent/{stop}
     defaults: { _controller: TramBundle:Agent:showAgent }
- 
+
 # API ligne
 tram_api_lignes:
     path:     /api/Lignes
@@ -26,3 +29,9 @@ tram_api_stops:
 tram_api_stop:
     path:     /api/Lignes/{code_ligne}/Stops/{code_stop}
     defaults: { _controller: TramBundle:API:stop}
+tram_api_all_stops:
+    path:   /api/Stops
+    defaults: {_controller: TramBundle:API:allstop}
+tram_api_stop_all_ligne:
+    path:   /api/Stops/{code_stop}
+    defaults: {_controller: TramBundle:API:stop_wt_ligne}

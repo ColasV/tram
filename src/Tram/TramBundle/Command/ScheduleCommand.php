@@ -20,7 +20,7 @@ class ScheduleCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('tramschedules:load')
+            ->setName('tram:schedules:load')
             ->setDescription('Load Schedules for Tram')
             ->addArgument(
                 'length',
@@ -39,6 +39,7 @@ class ScheduleCommand extends ContainerAwareCommand
         $logger->pushHandler(new PDOHandler(new \PDO('sqlite:logs.sqlite')));
 
         // Get Argument from the input line
+        // Standard length is 6 hours
         $length = $input->getArgument('length');
         if(!$length) {
             $length = 6;
@@ -55,6 +56,7 @@ class ScheduleCommand extends ContainerAwareCommand
 
         $stop_repo = $manager->getRepository('TramBundle:Stop');
 
+        // Delete old schedules
         $query = $manager->createQuery('DELETE TramBundle:Schedule c');
         $query->execute();
 
@@ -89,10 +91,7 @@ class ScheduleCommand extends ContainerAwareCommand
                 }
             }
 
-            //print_r($liste_2);
-
             foreach($liste_2 as $key => $val) {
-                //var_dump($key);
                 $s = $manager->getRepository('TramBundle:Stop')->findOneByName($key);
 
                 $timestamp = time()*1000;
@@ -109,9 +108,6 @@ class ScheduleCommand extends ContainerAwareCommand
                     $file = file_get_contents($url_time);
                     $json = json_decode($file);
 
-                    // Ici on a pris un arrêt dans 1 sens donné (on sait pas lequel)
-
-                    //$direction = $ligne->getDirections()[$key];
                     $times = $json->stopTimes;
 
                     foreach($times as $time)

@@ -41,4 +41,9 @@ class LigneController extends Controller
 
         return $this->render('TramBundle:Tram:stop.html.twig', array('stop' => $res, 'ligne_stop' => $ligne));
     }
+
+    public function positionAction()
+    {
+        return $this->render('TramBundle:Tram:position.html.twig');
+    }
 }

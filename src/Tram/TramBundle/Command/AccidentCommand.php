@@ -19,7 +19,7 @@ class AccidentCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('tramaccident:load')
+            ->setName('tram:accidents:load')
             ->setDescription('Load Accident for Tram')
         ;
     }
@@ -39,6 +39,7 @@ class AccidentCommand extends ContainerAwareCommand
         $query = $manager->createQuery('DELETE TramBundle:Accident c');
         $query->execute();
 
+        // Get URL for the accidents
         $html = file_get_contents('http://www.tag.fr/rss_info_trafic.php');
 
         // Crawler to read html file
@@ -47,25 +48,25 @@ class AccidentCommand extends ContainerAwareCommand
 
         foreach($c as $t) {
             $child = iterator_to_array($t->childNodes);
-            //print_r($t);
-            
+
             $name = trim($child[3]->textContent);
-            
+
             $main = $child[5]->textContent;
-            
+
             $date = trim(strip_tags(explode('<br>', $main)[0]));
-            
-          
-            $description = preg_replace_callback("/(&#[0-9]+;)/", 
-                    function($m) { return mb_convert_encoding($m[1], "UTF-8", "HTML-ENTITIES"); }, 
-                            strip_tags(explode('<br>', $main)[1])); 
-            
-            
+
+
+            $description = preg_replace_callback("/(&#[0-9]+;)/",
+                    function($m) { return mb_convert_encoding($m[1], "UTF-8", "HTML-ENTITIES"); },
+                            strip_tags(explode('<br>', $main)[1]));
+
+
             $url = $child[7]->textContent;
             $code = explode('/', $url)[4];
-                 
-            
+
+
             $ligne = $manager->getRepository('TramBundle:Ligne')->findOneByCode($code);
+
             if ($ligne) {
                 $output->writeln('<info>Adding accident for ' . $code . '</info>');
                 $accident = new Accident;

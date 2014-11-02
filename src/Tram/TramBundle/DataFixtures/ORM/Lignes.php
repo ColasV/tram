@@ -13,7 +13,8 @@ class Lignes extends AbstractFixture implements OrderedFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
-        $a = array('A', 'B', 'C', 'D', 'E', 'C1', 'C2', 'C3', 'C4', 'C5', 'C6');
+        $a = array('A', 'B', 'C', 'D', 'E', 'C1', 'C2', 'C3', 'C4', 'C5', 'C6',
+        '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22');
         foreach($a as $l) {
             $url = 'http://83.145.98.139/otp-rest-servlet/ws/transit/routeData?agency=SEMx01&extended=false&references=true&id=SEM_' . $l . '&routerId=prod';
             $file = file_get_contents($url);

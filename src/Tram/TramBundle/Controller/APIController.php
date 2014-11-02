@@ -50,7 +50,9 @@ class APIController extends Controller
           foreach($stops as $stop) {
             array_push($json, array('name' => $stop->getName(),
                                     'code' => $stop->getCode(),
-                                    'agent' => $stop->getPresence()));
+                                    'agent' => $stop->getPresence(),
+                                    'latitude' => $stop->getLat(),
+                                    'longitude' => $stop->getLng()));
           }
           $response = new Response(json_encode($json));
           $response->setStatusCode(200);
@@ -97,6 +99,70 @@ class APIController extends Controller
     }
     $response->headers->set('Content-Type', 'application/json');
     return $response;
+  }
+
+  public function allstopAction()
+  {
+        $doctrine = $this->getDoctrine()->getManager();
+        $rep = $doctrine->getRepository('TramBundle:Stop');
+
+        $stops = $rep->findAll();
+
+        if($stops) {
+            $positions = [];
+            foreach($stops as $stop) {
+                array_push($positions, array('name' => $stop->getName(),
+                                            'code' => $stop->getCode(),
+                                            'agent' => $stop->getPresence(),
+                                            'latitude' => $stop->getLat(),
+                                            'longitude' => $stop->getLng()));
+            }
+
+            $response = new Response(json_encode($positions));
+            $response->setStatusCode(200);
+        } else {
+            $response = new Response(json_encode(array('error' => '404')));
+            $response->setStatusCode(404);
+        }
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+  }
+
+  public function stop_wt_ligneAction($code_stop)
+  {
+        $doctrine = $this->getDoctrine()->getManager();
+        $rep = $doctrine->getRepository('TramBundle:Stop');
+        $stop = $rep->findOneByCode($code_stop);
+
+        if ($stop) {
+          $lignes = [];
+          foreach($stop->getLignes() as $ligne) {
+            $destinations = [];
+            foreach($ligne->getDirections() as $destination) {
+              $schedules = $this->getSchedules($ligne->getHoraires($stop, $destination));
+
+              array_push($destinations, array('name' => $destination->getName(),
+                                              'schedules' => $schedules));
+            }
+
+            $l = array('name' => $ligne->getName(),
+                        'destinations' => $destinations);
+
+            array_push($lignes, $l);
+          }
+          $json = array('name' => $stop->getName(),
+                        'code' => $stop->getCode(),
+                        'lignes' => $lignes);
+
+          $response = new Response(json_encode($json));
+          $response->setStatusCode(200);
+        } else {
+          $response = new Response(json_encode(array('error' => '404')));
+          $response->setStatusCode(404);
+        }
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+
   }
 
   private function getSchedules($schedules) {
