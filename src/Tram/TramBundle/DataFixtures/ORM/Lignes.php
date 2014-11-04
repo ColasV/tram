@@ -37,6 +37,7 @@ class Lignes extends AbstractFixture implements OrderedFixtureInterface
             $name = 'Ligne ' . $l;
             $ligne->setName($name);
             $ligne->setCode($l);
+            $ligne->setColor('#ffffff');
             $ligne->setLogo('logo' . $l . '.png');
 
             $i = 0;

@@ -37,6 +37,13 @@ class Ligne
     private $code;
 
     /**
+    * @var string
+    *
+    * @ORM\Column(name="color", type="string", length=255)
+    */
+    private $color;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="logo", type="string", length=255)
@@ -63,6 +70,7 @@ class Ligne
    * @ORM\OneToMany(targetEntity="Tram\TramBundle\Entity\Accident", mappedBy="ligne")
    */
   private $accidents;
+
 
 
     /**
@@ -357,5 +365,37 @@ class Ligne
         }
     }
 
+    public function getHasAccident() {
+        if (!$this->accidents->isEmpty()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
+
+
+
+    /**
+     * Set color
+     *
+     * @param string $color
+     * @return Ligne
+     */
+    public function setColor($color)
+    {
+        $this->color = $color;
+    
+        return $this;
+    }
+
+    /**
+     * Get color
+     *
+     * @return string 
+     */
+    public function getColor()
+    {
+        return $this->color;
+    }
 }

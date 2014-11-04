@@ -27,7 +27,7 @@
 
     <div class="panel-group" id="accordion">
     {% for ligne in stop.lignes %}
-        <h3><img src="{{ ligne.logourl }}" />{{ ligne.name }}</h3>
+        <h3><img src="{{ ligne.logourl }}" /><a href="{{ path('tram_ligne', {'code': ligne.code})}}">{{ ligne.name }}</a></h3>
 
         {% for direction in ligne.directions %}
         <div class="panel panel-default">

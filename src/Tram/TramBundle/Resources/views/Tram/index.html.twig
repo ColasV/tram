@@ -9,27 +9,53 @@
 
     <button type="button" style="margin-bottom:10px;" class="btn btn-primary btn-block" onclick="self.location.href='Position'">Me localiser</button>
 
-    <ul class="list-group">
+    <div class="row box_ligne hidden-xs">
     {% for ligne in lignes %}
-        <li class="list-group-item">
+        <div class="col-sm-2 ligne">
+            <div class="box_top" style="background:{{ ligne.color }}">
+            <span class="helper"></span>
             <img src="{{ ligne.logourl }}" />
-            <a href="{{ path('tram_ligne', {'code': ligne.code}) }}"> {{ligne.name}} </a>
-
             {% for accident in ligne.accidents %}
-                <a id="A{{ accident.id }}" rel="popover" class="pull-right pop">
+                <!--<a id="A{{ accident.id }}" rel="popover" class="pop" data-toggle="popover">
                     <img src="/images/alert.png" />
-                </a>
+                </a>-->
 
             {% endfor %}
-        </li>
+
+            </div>
+            <div class="box_bottom">
+            <a href="{{ path('tram_ligne', {'code': ligne.code}) }}" {% if ligne.hasAccident %}style="color:red"{% endif %}> {{ligne.name}} </a>
+
+            </div>
+
+        </div>
     {% endfor %}
-    </ul>
+    </div>
+
+    <div class="hidden-sm hidden-md hidden-lg">
+        <ul class="list-group">
+        {% for ligne in lignes %}
+            <li class="list-group-item">
+                <img src="{{ ligne.logourl }}" />
+                <a href="{{ path('tram_ligne', {'code': ligne.code}) }}" {% if ligne.hasAccident %}style="color:red"{% endif %}> {{ligne.name}} </a>
+                {% for accident in ligne.accidents %}
+                    <a id="A{{ accident.id }}" rel="popover" class="pop pull-right" data-toggle="popover">
+                        <img src="/images/alert.png" />
+                    </a>
+                {% endfor %}
+
+
+
+            </li>
+        {% endfor %}
+        </ul>
+    </div>
 
     <script>
     {% for ligne in lignes %}
 
         {% for accident in ligne.accidents %}
-            $('#A{{ accident.id }}').popover({title : '{{ accident.name }}',content:'<b>{{ accident.date }}</b> <br/> {{ accident.description }}',placement:'left',html:'true'});
+            $('#A{{ accident.id }}').popover({title : '{{ accident.name }}',content:'<b>{{ accident.date }}</b> <br/> {{ accident.description }}',placement:'right',html:'true'});
         {% endfor %}
 
     {% endfor %}

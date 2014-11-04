@@ -42,3 +42,42 @@ body {
 padding-top: 10px;
 
 }
+
+.ligne {
+    /*background:orange;*/
+    margin:0.5%;
+    width:15.5%;
+    height:100px;
+    text-align:center;
+  padding-top:0%;
+  padding-bottom:0%;
+  padding-right:0%;
+  padding-left:0%;
+  border: 1px solid #bfbfbf;
+  box-shadow: 10px 10px 3px -6px #777;
+  /*border-radius: 15px;*/
+}
+ .box_ligne {
+     margin:auto;
+     text-align:center;
+ }
+
+ .box_top{
+     height:75%;
+     background:white;
+     vertical-align:middle;
+
+ }
+
+.helper {
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
+
+.box_bottom{
+    border-top:1px solid #bfbfbf;
+    height:25%;
+    background:#f2f2f2;
+    vertical-align:middle
+}
