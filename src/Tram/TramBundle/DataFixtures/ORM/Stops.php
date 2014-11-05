@@ -24,6 +24,7 @@ class Stops extends AbstractFixture implements OrderedFixtureInterface
              * Fonction qui récupère les données du site de la TAG
              */
             $url = 'http://83.145.98.139/otp-rest-servlet/ws/transit/routeData?agency=SEMx01&extended=true&references=true&id=SEM_' . $ligne->getCode() . '&routerId=prod';
+            echo $url;
             $file = file_get_contents($url);
 
             $json = json_decode($file);
@@ -37,9 +38,16 @@ class Stops extends AbstractFixture implements OrderedFixtureInterface
             	foreach($variant->stops as $stop) {
             		if(!array_key_exists($stop->name, $liste)) {
             			$liste[$stop->name] = [];
+                        $liste[$stop->name]['code'] = [];
+                        $coord = [];
+                        array_push($coord, $stop->lat);
+                        array_push($coord, $stop->lon);
+                        $liste[$stop->name]['coord'] = $coord;
             		}
-            		array_push($liste[$stop->name], $stop->id->id);
-            		$liste[$stop->name] = array_unique($liste[$stop->name]);
+                    print_r($stop->name);
+                    print_r($liste[$stop->name]);
+            		array_push($liste[$stop->name]['code'], $stop->id->id);
+            		$liste[$stop->name]['code'] = array_unique($liste[$stop->name]['code']);
             	}
             }
 
@@ -47,10 +55,15 @@ class Stops extends AbstractFixture implements OrderedFixtureInterface
 
             foreach($liste as $key => $value) {
             	$liste_2[$key] = [];
-            	foreach($liste[$key] as $val) {
-            		array_push($liste_2[$key], $val);
+            	$liste_2[$key]['code'] = [];
+                $liste_2[$key]['coord'] = $value['coord'];
+
+                foreach($liste[$key]['code'] as $val) {
+            		array_push($liste_2[$key]['code'], $val);
             	}
             }
+
+            //print_r($liste_2);
 
             foreach($liste_2 as $key => $val) {
                 $s = null;
@@ -64,9 +77,9 @@ class Stops extends AbstractFixture implements OrderedFixtureInterface
                 if(!$s) {
                     $s = new Stop();
                     $s->setName($key);
-                    $s->setCode($val[0]);
-                    $s->setLat('1.0');
-                    $s->setLng('1.0');
+                    $s->setCode($val['code'][0]);
+                    $s->setLat($val['coord'][0]);
+                    $s->setLng($val['coord'][1]);
                     $liste_stops[$key] = $s;
                 }
 
