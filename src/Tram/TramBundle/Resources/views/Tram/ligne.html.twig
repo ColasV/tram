@@ -14,7 +14,7 @@
 
     <div class="row">
 
-    <div class="col-sm-8">
+    <div class="col-sm-8" style="padding-right:7.5px">
         <form method="POST" action="">
     	<div class="form-group">
                 <input type="text" name="recherche" id="champ_recherche" class="form-control" placeholder="Entrez un arrêt..."/>
@@ -41,8 +41,11 @@
     </div>
     </div>
 
-    <div class="col-sm-4 hidden-xs">
-        <h3 style="margin-top:0px;">Liste des accidents sur la ligne</h3>
+
+    <div class="col-sm-4 hidden-xs" style="padding-left:7.5px">
+        <div class="block_right_accident">
+        <h3>Liste des accidents sur la ligne</h3>
+        {% if ligne.hasAccident %}
         <ul>
         {% for accident in ligne.accidents %}
             <li><h4>{{ accident.name }}</h4>
@@ -50,8 +53,12 @@
             <p>{{ accident.description }}</p></li>
         {% endfor %}
         <ul>
-
+        {% else %}
+            <p>Aucun accident actuellement</p>
+        {% endif %}
+        </div>
     </div>
+
 
 
     </div>
