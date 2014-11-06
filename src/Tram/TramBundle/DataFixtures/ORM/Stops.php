@@ -44,8 +44,7 @@ class Stops extends AbstractFixture implements OrderedFixtureInterface
                         array_push($coord, $stop->lon);
                         $liste[$stop->name]['coord'] = $coord;
             		}
-                    print_r($stop->name);
-                    print_r($liste[$stop->name]);
+
             		array_push($liste[$stop->name]['code'], $stop->id->id);
             		$liste[$stop->name]['code'] = array_unique($liste[$stop->name]['code']);
             	}
@@ -62,8 +61,6 @@ class Stops extends AbstractFixture implements OrderedFixtureInterface
             		array_push($liste_2[$key]['code'], $val);
             	}
             }
-
-            //print_r($liste_2);
 
             foreach($liste_2 as $key => $val) {
                 $s = null;

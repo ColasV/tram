@@ -7,20 +7,19 @@
 {% block body %}
     <h1 class="hidden-xs">Lignes</h1>
 
-    <button type="button" style="margin-bottom:10px;" class="btn btn-primary btn-block" onclick="self.location.href='Position'">Me localiser</button>
-
     <div class="row box_ligne hidden-xs">
     {% for ligne in lignes %}
         <div class="col-sm-2 ligne">
-            <div class="box_top">
-            <span class="helper"></span>
-            <img src="{{ ligne.logourl }}" />
+            <a href="{{ path('tram_ligne', {'code': ligne.code}) }}" {% if ligne.hasAccident %}style="color:red"{% endif %}>
+                <div class="box_top">
+                    <span class="helper"></span>
+                    <img src="{{ ligne.logourl }}" style="text-decoration:none;"/>
+                </div>
 
-            </div>
-            <div class="box_bottom">
-                <a href="{{ path('tram_ligne', {'code': ligne.code}) }}" {% if ligne.hasAccident %}style="color:red"{% endif %}> {{ligne.name}} </a>
-            </div>
-
+                <div class="box_bottom">
+                     <p>{{ligne.name}}</p>
+                </div>
+            </a>
         </div>
     {% endfor %}
     </div>
@@ -56,6 +55,10 @@
 
     $('.pop').on('click', function (e) {
         $('.pop').not(this).popover('hide');
+    });
+
+    $('.ligne').click(function() {
+        $(this).attr("style","box-shadow: none;");
     });
 
     </script>

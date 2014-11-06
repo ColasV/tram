@@ -12,19 +12,19 @@
     {% stylesheets '@TramBundle/Resources/public/css/style.css'  %}
                 <link href="{{ asset_url }}" rel="stylesheet" type="text/css" />
     {% endstylesheets %}
-    
+
     {% javascripts '@TramBundle/Resources/public/js/jquery.min.js' %}
         <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
-    
+
     {% javascripts '@TramBundle/Resources/public/js/bootstrap.min.js' %}
         <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
-    
+
     {% javascripts '@TramBundle/Resources/public/js/stop_search.js' %}
         <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
-    
+
     {% block head %}
     {% endblock %}
 
@@ -42,6 +42,9 @@
         <ol class="breadcrumb">
             {% block breadcrumb %}
             <li>Home</li>
+
+            <a href="Position"><span class="glyphicon glyphicon-map-marker pull-right"></span></a>
+
             {% endblock %}
     	</ol>
 

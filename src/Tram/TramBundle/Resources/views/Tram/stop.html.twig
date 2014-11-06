@@ -14,6 +14,8 @@
     <li><a href="{{ path('tram_homepage') }}">Home</a></li>
     <li><a href="{{ path('tram_ligne', {'code': ligne_stop.code })}}">{{ ligne_stop.name }}</a></li>
     <li>{{ stop.name }}</li>
+
+    <a href="Position"><span class="glyphicon glyphicon-map-marker pull-right"></span></a>
 {% endblock %}
 
 {% block body %}
