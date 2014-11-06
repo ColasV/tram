@@ -101,12 +101,23 @@ class APIController extends Controller
     return $response;
   }
 
-  public function allstopAction()
+
+
+
+  public function allstopAction(Request $request)
   {
         $doctrine = $this->getDoctrine()->getManager();
         $rep = $doctrine->getRepository('TramBundle:Stop');
 
         $stops = $rep->findAll();
+
+        $lat = $request->query->get('lat');
+        $lon = $request->query->get('lon');
+
+        if ($lat && $lon) {
+            $best_stop = $this->findNearestStop($lat, $lon, $stops);
+            $stops = array($best_stop);
+        }
 
         if($stops) {
             $positions = [];
@@ -127,6 +138,32 @@ class APIController extends Controller
         $response->headers->set('Content-Type', 'application/json');
         return $response;
   }
+
+
+    private function findNearestStop($lat, $lon, $stops) {
+        $best_stop = null;
+        $best_distance = 1000000;
+
+        if ($stops) {
+            foreach($stops as $stop) {
+                $s_lat = $stop->getLat();
+                $s_lon = $stop->getLng();
+
+                $distance = sqrt(pow($s_lat - $lat,2) + pow($s_lon - $lon, 2));
+
+                if ($distance < $best_distance) {
+                    $best_distance = $distance;
+                    $best_stop = $stop;
+                }
+
+            }
+
+            return $best_stop;
+        } else {
+            return null;
+        }
+
+    }
 
   public function stop_wt_ligneAction($code_stop)
   {

@@ -10,6 +10,9 @@ tram_stop:
 tram_position:
     path:     /Position
     defaults: { _controller: TramBundle:Ligne:position}
+tram_stop_uniq:
+    path:   /Stops/{code_stop}
+    defaults: { _controller: TramBundle:Ligne:stop}
 
 # API agent
 agent_add:
