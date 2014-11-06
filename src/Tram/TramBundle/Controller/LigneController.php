@@ -31,7 +31,7 @@ class LigneController extends Controller
         return $this->render('TramBundle:Tram:ligne.html.twig', array('ligne' => $res));
     }
 
-    public function stopAction($code_ligne = null,$code_stop)
+    public function stopAction($code_stop, $code_ligne = null)
     {
         $doctrine = $this->getDoctrine()->getManager();
         $rep = $doctrine->getRepository('TramBundle:Stop');
