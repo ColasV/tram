@@ -13,7 +13,7 @@
             <a href="{{ path('tram_ligne', {'code': ligne.code}) }}" {% if ligne.hasAccident %}style="color:red"{% endif %}>
                 <div class="box_top">
                     <span class="helper"></span>
-                    <img src="{{ ligne.logourl }}" style="text-decoration:none;"/>
+                    <img src="{{ ligne.logourl }}" alt="ligne.name" />
                 </div>
 
                 <div class="box_bottom">
@@ -28,11 +28,11 @@
         <ul class="list-group">
         {% for ligne in lignes %}
             <li class="list-group-item">
-                <img src="{{ ligne.logourl }}" />
+                <img src="{{ ligne.logourl }}" alt="ligne.name"/>
                 <a href="{{ path('tram_ligne', {'code': ligne.code}) }}"> {{ligne.name}} </a>
                 {% for accident in ligne.accidents %}
                     <a id="A{{ accident.id }}" rel="popover" class="pop pull-right" data-toggle="popover">
-                        <img src="/images/alert.png" />
+                        <img src="/images/alert.png" alt="alert" />
                     </a>
                 {% endfor %}
 
