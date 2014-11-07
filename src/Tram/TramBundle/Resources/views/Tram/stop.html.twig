@@ -27,11 +27,74 @@
     <p class="text-center"><button class="btn btn-warning" id="agentHere" onclick="addAgent()">Signaler des contrôlleurs</button></p>
     {% endif %}
 
-    <div class="panel-group" id="accordion">
+    <div class="row hidden-xs">
+    <div class="col-sm-8">
+    <h3><img src="{{ ligne_stop.logourl }}" /><a href="{{ path('tram_ligne', {'code': ligne_stop.code})}}">{{ ligne_stop.name }}</a></h3>
+
+    {% for direction in ligne_stop.directions %}
+        {% if ligne_stop.hasHoraires(stop, direction) %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    {{ direction.name }}
+                </h4>
+            </div>
+
+
+            <ul class="list-group">
+            {% for schedule in ligne_stop.getHoraires(stop, direction) %}
+                <li class="list-group-item">
+                    {{ schedule.date|date("H:i") }}
+                </li>
+            {% endfor %}
+            </ul>
+
+        </div>
+        {% endif %}
+    {% endfor %}
+    </div>
+
+    <div class="col-sm-4">
     {% for ligne in stop.lignes %}
+        {% if ligne.isAvailable(stop) %}
+            {% if ligne != ligne_stop %}
+                <h3><img src="{{ ligne.logourl }}" /><a href="{{ path('tram_ligne', {'code': ligne.code})}}">{{ ligne.name }}</a></h3>
+
+
+                {% for direction in ligne.directions %}
+                {% if ligne.hasHoraires(stop, direction) %}
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            {{ direction.name }}
+                        </h4>
+                    </div>
+
+                    <ul class="list-group">
+                    {% for schedule in ligne.getHoraires(stop, direction, 1) %}
+                        <li class="list-group-item">
+                            {{ schedule.date|date("H:i") }}
+                        </li>
+                    {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+                {% endfor %}
+
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+
+    </div>
+    </div>
+
+    <div class="panel-group hidden-sm hidden-md hidden-lg" id="accordion">
+    {% for ligne in stop.lignes %}
+    {% if ligne.isAvailable(stop) %}
         <h3><img src="{{ ligne.logourl }}" /><a href="{{ path('tram_ligne', {'code': ligne.code})}}">{{ ligne.name }}</a></h3>
 
         {% for direction in ligne.directions %}
+        {% if ligne.hasHoraires(stop, direction) %}
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h4 class="panel-title">
@@ -53,10 +116,11 @@
             </div>
             </div>
         </div>
+        {% endif %}
         {% endfor %}
+    {% endif %}
     {% endfor %}
     </div>
-
 
     <script>
         function addAgent() {

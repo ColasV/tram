@@ -308,7 +308,7 @@ class Ligne
     /**
      *
      */
-     public function getHoraires(Stop $stop, Direction $destination)
+     public function getHoraires(Stop $stop, Direction $destination, $taille = 5)
      {
         $date = new \DateTime();
 
@@ -316,11 +316,42 @@ class Ligne
         $criteria->where(Criteria::expr()->eq('stop', $stop));
         $criteria->andWhere(Criteria::expr()->eq('direction', $destination));
         $criteria->andWhere(Criteria::expr()->gte('date', $date->format('Y-m-d H-i-s')));
-        $criteria->setMaxResults(5);
+        $criteria->setMaxResults($taille);
 
         $result = $this->schedules->matching($criteria);
 
         return $result;
+     }
+
+     public function hasHoraires(Stop $stop, Direction $destination)
+     {
+         $date = new \DateTime();
+
+         $criteria = Criteria::create();
+         $criteria->where(Criteria::expr()->eq('stop', $stop));
+         $criteria->andWhere(Criteria::expr()->eq('direction', $destination));
+         $criteria->andWhere(Criteria::expr()->gte('date', $date->format('Y-m-d H-i-s')));
+
+         $result = $this->schedules->matching($criteria);
+
+         if ($result->isEmpty()) {
+             return false;
+         } else {
+             return true;
+         }
+     }
+
+     public function isAvailable(Stop $stop)
+     {
+         $result = false;
+
+         foreach($this->directions as $direction) {
+            if(($this->hasHoraires($stop, $direction))) {
+                $result = true;
+            }
+         }
+
+         return $result;
      }
 
 
@@ -385,14 +416,14 @@ class Ligne
     public function setColor($color)
     {
         $this->color = $color;
-    
+
         return $this;
     }
 
     /**
      * Get color
      *
-     * @return string 
+     * @return string
      */
     public function getColor()
     {
