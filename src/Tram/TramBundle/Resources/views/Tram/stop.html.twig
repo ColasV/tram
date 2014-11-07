@@ -19,7 +19,7 @@
 {% endblock %}
 
 {% block body %}
-    <h1 id="stop_name">{{ stop.name }}</h1>
+    <h1 class="hidden-xs" id="stop_name">{{ stop.name }}</h1>
 
     {% if stop.presence %}
     <p class="text-center"><button class="btn btn-danger" id="agentHere" onclick="addAgent()">Confirmer contrôlleurs</button></p>
