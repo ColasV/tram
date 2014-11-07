@@ -61,6 +61,13 @@
         $(this).attr("style","box-shadow: none;");
     });
 
+    $('.ligne').mouseover(function() {
+        $(this).attr("style","box-shadow: none;");
+    })
+                .mouseleave(function() {
+        $(this).attr("style","box-shadow: 10px 10px 6px -6px #777;");
+    })
+
     </script>
 
 {% endblock %}
