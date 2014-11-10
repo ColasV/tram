@@ -28,9 +28,11 @@
 
     <div class="panel-group" id="accordion">
     {% for ligne in stop.lignes %}
+    {% if ligne.isAvailable(stop) %}
         <h3><img src="{{ ligne.logourl }}" /><a href="{{ path('tram_ligne', {'code': ligne.code})}}">{{ ligne.name }}</a></h3>
 
         {% for direction in ligne.directions %}
+        {% if ligne.hasHoraires(stop, direction) %}
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h4 class="panel-title">
@@ -40,19 +42,17 @@
                 </h4>
             </div>
 
-            <div id="collapse{{direction.hash}}" class="panel-collapse collapse">
-            <div class="panel-body">
-                <div class="list-group">
+            <ul class="list-group panel-collapse collapse" id="collapse{{direction.hash}}">
                 {% for schedule in ligne.getHoraires(stop, direction) %}
-                    <div class="list-group-item">
+                    <li class="list-group-item">
                         {{ schedule.date|date("H:i") }}
-                    </div>
+                    </li>
                 {% endfor %}
-                </div>
-            </div>
-            </div>
+            </ul>
         </div>
+        {% endif %}
         {% endfor %}
+    {% endif %}
     {% endfor %}
     </div>
 
