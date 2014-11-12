@@ -19,9 +19,28 @@ class ScheduleUniq
                 if($s instanceof Schedule) {
                     if ($s == $entity) {
                         $entityManager->remove($s);
+                        return;
                     }
                 }
             }
+
+            $schedules = $entityManager->getRepository('TramBundle:Schedule')->findByStop($entity->getStop());
+            foreach($schedules as $s) {
+                if($s instanceof Schedule) {
+                    if ($s == $entity) {
+                        $entityManager->remove($s);
+                        $entityManager->flush();
+                        return;
+                    }
+                }
+            }
+
+
         }
+
+
+
+
+
     }
 }

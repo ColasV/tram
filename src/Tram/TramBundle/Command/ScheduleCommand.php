@@ -27,6 +27,11 @@ class ScheduleCommand extends ContainerAwareCommand
                 InputArgument::OPTIONAL,
                 'Quelle durée pour la plage horaire'
             )
+            ->addArgument(
+                'ligne',
+                InputArgument::OPTIONAL,
+                'Importer une ligne spécifique'
+            )
         ;
     }
 
@@ -45,13 +50,26 @@ class ScheduleCommand extends ContainerAwareCommand
             $length = 6;
         }
 
-        $logger->info('Launching Schedule command with length : ' . $length);
-
         // Get the Doctrine Manager to execute request
         $manager = $this->getApplication()->getKernel()->getContainer()->get('doctrine')->getManager();
 
+        $ligne = $input->getArgument('ligne');
+        if($ligne) {
+            $output->writeln('<info>Specific mode ' . $ligne . ' </info>');
+            $lignes = $manager->getRepository('TramBundle:Ligne')->findByCode($ligne);
+        } else {
+            $output->writeln('<info>Total mode</info>');
+            $lignes = $manager->getRepository('TramBundle:Ligne')->findAll();
+        }
+
+        if(!$lignes) {
+            $output->writeln('<error>Variable $lignes vide</error>');
+        }
+
+        $output->writeln('<info>Downloading schedules for ' . $length  . ' hours</info>');
+        $logger->info('Launching Schedule command with length : ' . $length);
+
         // The algorithm to extract schedule from tag website
-        $lignes = $manager->getRepository('TramBundle:Ligne')->findAll();
         $liste_stops = [];
 
         $stop_repo = $manager->getRepository('TramBundle:Stop');
