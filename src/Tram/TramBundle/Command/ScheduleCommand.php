@@ -37,7 +37,7 @@ class ScheduleCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        ini_set('memory_limit', '512M');
+        ini_set('memory_limit', '1024M');
 
         // Get the logger in order to store logging in database
         $logger = $this->getContainer()->get('logger');
