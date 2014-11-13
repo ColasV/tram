@@ -106,7 +106,7 @@
                 </h4>
             </div>
 
-            <ul class="list-group panel-collapse collapse" id="collapse{{direction.hash}}">
+            <ul class="list-group panel-collapse {% if ligne_stop != ligne %}collapse{% endif %}" id="collapse{{direction.hash}}">
                 {% for schedule in ligne.getHoraires(stop, direction) %}
                     <li class="list-group-item">
                         {{ schedule.date|date("H:i") }}
