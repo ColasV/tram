@@ -24,13 +24,13 @@ class Lignes extends AbstractFixture implements OrderedFixtureInterface
 
             $liste_symbol = array(" / ", "/ ", " - ");
 
-            foreach($liste_symbol as $symbol) {
-                $names = explode($symbol, $route->routeLongName);
-
-                if (count($names) == 2) {
-                    break;
-                }
-            }
+            // foreach($liste_symbol as $symbol) {
+            //     $names = explode($symbol, $route->routeLongName);
+            //
+            //     if (count($names) == 2) {
+            //         break;
+            //     }
+            // }
 
 
             $ligne = new Ligne;
@@ -44,11 +44,9 @@ class Lignes extends AbstractFixture implements OrderedFixtureInterface
 
             echo "Adding " . $name . "\n";
 
-            foreach($names as $name) {
+            //foreach($names as $name) {
+            for($i = 0 ; $i < 2 ; $i++) {
                 $direction = new Direction;
-                $direction->setName($name);
-
-                echo $name . "\n";
 
                 $direction->setDirection($i);
                 $ligne->addDirection($direction);
@@ -58,6 +56,13 @@ class Lignes extends AbstractFixture implements OrderedFixtureInterface
 
                 foreach($variants as $variant) {
                     if ($variant->direction == $i) {
+                        if(!$direction->getName()) {
+                            $direction_name = $variant->trips[0]->headsign;
+                            $direction->setName($direction_name);
+
+                            echo $direction_name . "\n";
+                        }
+
                         $destination = new Destination;
                         $destination->setName($variant->trips[0]->headsign);
                         $destination->setDirection($direction);
@@ -66,7 +71,7 @@ class Lignes extends AbstractFixture implements OrderedFixtureInterface
                     }
                 }
 
-                $i += 1;
+                //$i += 1;
             }
 
             $manager->persist($ligne);
