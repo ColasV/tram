@@ -388,6 +388,10 @@ class Ligne
         return $this->directions;
     }
 
+
+    /**
+     * Return the direction for a ligne based on his id
+     */
     public function getDirectionById($id) {
         foreach($this->directions as $direction) {
             if ($direction->getDirection() == $id) {
@@ -396,6 +400,11 @@ class Ligne
         }
     }
 
+    /**
+     * Return true there is one (or more) accident
+     * Return false if there is no accident
+     *
+     */
     public function getHasAccident() {
         if (!$this->accidents->isEmpty()) {
             return true;

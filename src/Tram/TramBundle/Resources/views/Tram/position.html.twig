@@ -12,7 +12,7 @@
 {% block body %}
     <h1 class="hidden-xs">Calcul de l'arrêt le plus proche</h1>
 
-    <p>Chargement en cours ...</p>
+    <p class="text_progress">Chargement en cours ...</p>
 
     <div class="progress">
         <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
@@ -36,15 +36,22 @@
     function errorCallback(error){
           switch(error.code){
             case error.PERMISSION_DENIED:
-              alert("L'utilisateur n'a pas autorisé l'accès à sa position");
+              console.log("L'utilisateur n'a pas autorisé l'accès à sa position");
               break;
             case error.POSITION_UNAVAILABLE:
-              alert("L'emplacement de l'utilisateur n'a pas pu être déterminé");
+              console.log("L'emplacement de l'utilisateur n'a pas pu être déterminé");
               break;
             case error.TIMEOUT:
-              alert("Le service n'a pas répondu à temps");
+              console.log("Le service n'a pas répondu à temps");
               break;
             }
+
+            errorGeolocation();
+    };
+
+    function errorGeolocation() {
+        $('.text_progress').text('Positionnement impossible');
+        $('.progress').remove();
     };
 
     function successCallback(position) {
