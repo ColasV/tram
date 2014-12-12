@@ -1,0 +1,4 @@
+services:
+#    tram_user.example:
+#        class: Tram\UserBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]
