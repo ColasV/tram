@@ -1,0 +1,33 @@
+{% extends "TramAdminBundle::layout.html.twig" %}
+
+{% block body %}
+<h1 class="page-header">Statistiques Tram</h1>
+<ul>
+    <li>{{ size_lignes }} lignes</li>
+    <li>{{ size_stops }} arrêts</li>
+    <li>{{ size_schedules }} horaires</li>
+
+    <table class="table table-striped">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Nom</th>
+            <th>Arrêts</th>
+            <th>Horaires</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for ligne in lignes %}
+        <tr>
+            <th>{{ ligne.id }}</th>
+            <th>{{ ligne.name }}</th>
+            <th>{{ ligne.NumberStops }}</th>
+            <th>{{ ligne.numberschedules }}</th>
+        </tr>
+        {% endfor %}
+    </tbody>
+
+
+    </table>
+
+{% endblock %}

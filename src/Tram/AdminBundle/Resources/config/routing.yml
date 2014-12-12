@@ -1,0 +1,6 @@
+index_admin:
+    path:     /admin/
+    defaults: { _controller: TramAdminBundle:Admin:index }
+stat_admin:
+    path:     /admin/stat
+    defaults: { _controller: TramAdminBundle:Admin:stat }

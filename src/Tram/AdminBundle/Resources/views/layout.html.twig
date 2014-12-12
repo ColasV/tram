@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% stylesheets '@TramBundle/Resources/public/css/bootstrap.min.css'  %}
+                <link href="{{ asset_url }}" rel="stylesheet" type="text/css" />
+    {% endstylesheets %}
+
+    {% stylesheets '@TramBundle/Resources/public/css/bootstrap-theme.min.css' %}
+                <link href="{{ asset_url }}" rel="stylesheet" type="text/css" />
+    {% endstylesheets %}
+
+    {% stylesheets '@TramAdminBundle/Resources/public/css/style.css'  %}
+                <link href="{{ asset_url }}" rel="stylesheet" type="text/css" />
+    {% endstylesheets %}
+
+    {% javascripts '@TramBundle/Resources/public/js/jquery.min.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+    {% javascripts '@TramBundle/Resources/public/js/bootstrap.min.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+    {% javascripts '@TramBundle/Resources/public/js/stop_search.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+    {% block head %}
+    {% endblock %}
+
+    {% block title %}
+        <title>Index</title>
+    {% endblock %}
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+</head>
+
+<body>
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">
+                    Administration Tram
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+            <ul class="nav nav-sidebar">
+                <li class="active"><a href="{{ path('index_admin') }}">Accueil <span class="sr-only">(current)</span></a></li>
+                <li><a href=" {{ path('stat_admin') }} ">Statistiques</a></li>
+                <li><a href="#">Analytics</a></li>
+                <li><a href="#">Export</a></li>
+            </ul>
+        </div>
+
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            {% block body %}
+            {% endblock %}
+        </div>
+    </div>
+    </div>
+</body>
+</html>
