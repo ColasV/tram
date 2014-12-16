@@ -41,7 +41,8 @@ class ScheduleCommand extends ContainerAwareCommand
 
         // Get the logger in order to store logging in database
         $logger = $this->getContainer()->get('logger');
-        $logger->pushHandler(new PDOHandler(new \PDO('sqlite:logs.sqlite')));
+        $pdo = $this->getContainer()->get('database_connection')->getWrappedConnection();
+        $logger->pushHandler(new PDOHandler($pdo));
 
         // Get Argument from the input line
         // Standard length is 6 hours
@@ -67,7 +68,7 @@ class ScheduleCommand extends ContainerAwareCommand
         }
 
         $output->writeln('<info>Downloading schedules for ' . $length  . ' hours</info>');
-        $logger->info('Launching Schedule command with length : ' . $length);
+        $logger->info('schedule command length ' . $length);
 
         // The algorithm to extract schedule from tag website
         $liste_stops = [];
@@ -80,6 +81,7 @@ class ScheduleCommand extends ContainerAwareCommand
 
         foreach($lignes as $ligne) {
             $output->writeln('<info>Ligne ' . $ligne->getName() . '</info>');
+            $logger->info('schedule command ligne ' . $ligne->getName());
             $url = 'http://83.145.98.139/otp-rest-servlet/ws/transit/routeData?agency=SEMx01&extended=true&references=true&id=SEM_' . $ligne->getCode() . '&routerId=prod';
             $file = file_get_contents($url);
 
@@ -116,9 +118,9 @@ class ScheduleCommand extends ContainerAwareCommand
                 $timestamp_end = $timestamp + $length*3600*1000;
 
                 $directionId = 0;
-
+                $output->writeln('Key ' . $key );
                 foreach($val as $key => $code) {
-                    $output->writeln('<info>Getting schedule for ' . $code . ' ( ' . $s->getName() . ' )</info>');
+                    $output->writeln('<info>Getting schedule for ' . $code . '</info>');
                     $url_time = 'http://83.145.98.139/otp-rest-servlet/ws/transit/stopTimesForStop?agency=SEMx01&extended=true&references=true&routeId=SEM_' . $ligne->getCode() . '&id=' . $code . '&startTime=' . $timestamp . '&endTime=' . $timestamp_end . '&routerId=prod';
 
                     $output->writeln($url_time);
@@ -160,7 +162,7 @@ class ScheduleCommand extends ContainerAwareCommand
         }
         $manager->flush();
 
-        $logger->info('End of Schedule command');
+        $logger->info('schedule command end successfully');
         $output->writeln('Done !');
     }
 }

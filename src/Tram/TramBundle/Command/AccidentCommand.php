@@ -28,9 +28,9 @@ class AccidentCommand extends ContainerAwareCommand
     {
         // Get the logger in order to store logging in database
         $logger = $this->getContainer()->get('logger');
-        $logger->pushHandler(new PDOHandler(new \PDO('sqlite:logs.sqlite')));
-
-        $logger->info('Lauching Accident command');
+        $pdo = $this->getContainer()->get('database_connection')->getWrappedConnection();
+        $logger->pushHandler(new PDOHandler($pdo));
+        $logger->info('lauching accident command');
 
         // Get the doctrine Manager to execute request
         $manager = $this->getApplication()->getKernel()->getContainer()->get('doctrine')->getManager();
@@ -69,6 +69,7 @@ class AccidentCommand extends ContainerAwareCommand
 
             if ($ligne) {
                 $output->writeln('<info>Adding accident for ' . $code . '</info>');
+                $logger->debug('add accident ligne ' . $code);
                 $accident = new Accident;
                 $accident->setName($name);
                 $accident->setDate($date);
@@ -83,6 +84,6 @@ class AccidentCommand extends ContainerAwareCommand
 
         }
 
-        $logger->info('End of Accident command');
+        $logger->info('end of accident command');
     }
 }
