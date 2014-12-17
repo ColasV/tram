@@ -413,6 +413,14 @@ class Ligne
         }
     }
 
+    public function getNumberStops() {
+        return count($this->stops);
+    }
+
+
+    public function getNumberSchedules() {
+        return count($this->schedules);
+    }
 
 
 

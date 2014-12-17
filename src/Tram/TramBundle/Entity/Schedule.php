@@ -53,7 +53,7 @@ class Schedule
      */
     public function setDate($date)
     {
-        $this->date = $date->format('Y-m-d H-i-s');;
+        $this->date = $date->format('Y-m-d H-i-s');
 
         return $this;
     }
@@ -65,7 +65,7 @@ class Schedule
      */
     public function getDate()
     {
-        return \DateTime::createFromFormat('Y-m-d H-i-s', $this->date);;
+        return \DateTime::createFromFormat('Y-m-d H-i-s', $this->date);
     }
 
     /**
@@ -143,14 +143,14 @@ class Schedule
     public function setDirection(\Tram\TramBundle\Entity\Direction $direction)
     {
         $this->direction = $direction;
-    
+
         return $this;
     }
 
     /**
      * Get direction
      *
-     * @return \Tram\TramBundle\Entity\Direction 
+     * @return \Tram\TramBundle\Entity\Direction
      */
     public function getDirection()
     {
