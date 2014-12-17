@@ -33,7 +33,7 @@ twig:
 assetic:
     debug:          "%kernel.debug%"
     use_controller: false
-    bundles:        [ TramBundle ]
+    bundles:        [ TramBundle, TramUserBundle , TramAdminBundle]
     #java: /usr/bin/java
     filters:
         cssrewrite: ~

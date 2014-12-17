@@ -17,6 +17,8 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new Tram\TramBundle\TramBundle(),
+            new Tram\UserBundle\TramUserBundle(),
+            new Tram\AdminBundle\TramAdminBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
