@@ -4,3 +4,6 @@ index_admin:
 stat_admin:
     path:     /admin/stat
     defaults: { _controller: TramAdminBundle:Admin:stat }
+log_admin:
+    path:     /admin/log
+    defaults: { _controller: TramAdminBundle:Admin:log }

@@ -1,0 +1,38 @@
+{% extends "TramAdminBundle::layout.html.twig" %}
+
+{% block title %}
+<title>Logs</title>
+{% endblock %}
+
+{% block breadcrumb %}
+    <li><a href="{{ path('index_admin')}}">Accueil</a></li>
+    <li>Logs</li>
+{% endblock %}
+
+{% block body %}
+<h1 class="page-header">Logs Tram</h1>
+<ul>
+    <table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Level</th>
+            <th>Time</th>
+            <th>Level</th>
+            <th>Message</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for log in logs %}
+        <tr>
+            <th>{{ log.channel }}</th>
+            <th>{{ log.time|date('d/m/Y H:i:s') }}</th>
+            <th>{{ log.level }}</th>
+            <th>{{ log.message }}</th>
+        </tr>
+        {% endfor %}
+    </tbody>
+
+
+    </table>
+
+{% endblock %}

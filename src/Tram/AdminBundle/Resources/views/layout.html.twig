@@ -51,14 +51,21 @@
     <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
-                <li class="active"><a href="{{ path('index_admin') }}">Accueil <span class="sr-only">(current)</span></a></li>
-                <li><a href=" {{ path('stat_admin') }} ">Statistiques</a></li>
-                <li><a href="#">Analytics</a></li>
-                <li><a href="#">Export</a></li>
+                <li></li>
+                <li {% if app.request.attributes.get('_route') == 'index_admin'%}class="active"{% endif %}><a href="{{ path('index_admin') }}">Accueil <span class="sr-only">(current)</span></a></li>
+                <li {% if app.request.attributes.get('_route') == 'stat_admin'%}class="active"{% endif %}><a href=" {{ path('stat_admin') }} ">Statistiques</a></li>
+                <li {% if app.request.attributes.get('_route') == 'log_admin'%}class="active"{% endif %}><a href=" {{ path('log_admin') }} ">Logs</a></li>
             </ul>
         </div>
 
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <ol class="breadcrumb">
+                {% block breadcrumb %}
+                <li>Accueil</li>
+                {% endblock %}
+            </ol>
+
+
             {% block body %}
             {% endblock %}
         </div>

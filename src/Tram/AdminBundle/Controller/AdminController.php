@@ -31,4 +31,22 @@ class AdminController extends Controller
                                                                         'size_stops' => $size_stops,
                                                                         'size_schedules' => $size_schedules));
     }
+
+    public function statLigneAction()
+    {
+        $doctrine = $this->getDoctrine()->getManager();
+
+    }
+
+
+    public function logAction()
+    {
+        $doctrine = $this->getDoctrine()->getManager();
+        $rep = $doctrine->getRepository('TramAdminBundle:Log');
+
+        $res = $rep->findAll();
+
+        return $this->render('TramAdminBundle:Admin:log.html.twig', array('logs' => $res));
+
+    }
 }

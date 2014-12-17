@@ -1,5 +1,15 @@
 {% extends "TramAdminBundle::layout.html.twig" %}
 
+{% block title %}
+<title>Administration</title>
+{% endblock %}
+
 {% block body %}
-<h1>Page d'administration de l'application Tram</h1>
+<h1 class="page-header">Page d'administration de l'application Tram</h1>
+<p>Page d'administration de l'application Tram</p>
+<p>Permet uniquement la visualisation des données pour le moment</p>
+<ul>
+    <li><a href=" {{ path('stat_admin') }} ">Statistiques</a></li>
+    <li><a href=" {{ path('log_admin') }} ">Logs</a></li>
+</ul>
 {% endblock %}

@@ -1,5 +1,14 @@
 {% extends "TramAdminBundle::layout.html.twig" %}
 
+{% block title %}
+<title>Statistiques</title>
+{% endblock %}
+
+{% block breadcrumb %}
+    <li><a href="{{ path('index_admin')}}">Accueil</a></li>
+    <li>Statistiques</li>
+{% endblock %}
+
 {% block body %}
 <h1 class="page-header">Statistiques Tram</h1>
 <ul>
