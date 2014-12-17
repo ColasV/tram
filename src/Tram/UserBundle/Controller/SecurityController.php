@@ -11,8 +11,8 @@ class SecurityController extends Controller
     public function loginAction(Request $request)
     {
         // Si le visiteur est déjà identifié, on le redirige vers l'accueil
-        if ($this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-            return $this->redirect($this->generateUrl('oc_platform_accueil'));
+        if ($this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return $this->redirect($this->generateUrl('index_admin'));
         }
 
         $session = $request->getSession();

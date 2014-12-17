@@ -9,7 +9,7 @@
                 <link href="{{ asset_url }}" rel="stylesheet" type="text/css" />
     {% endstylesheets %}
 
-    {% stylesheets '@TramBundle/Resources/public/css/style.css'  %}
+    {% stylesheets '@TramUserBundle/Resources/public/css/signin.css'  %}
                 <link href="{{ asset_url }}" rel="stylesheet" type="text/css" />
     {% endstylesheets %}
 
@@ -29,7 +29,7 @@
     {% endblock %}
 
     {% block title %}
-        <title>Index</title>
+        <title>Authentification</title>
     {% endblock %}
 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -37,29 +37,7 @@
 </head>
 
 <body>
-    <div class="container">
-
-        <ol class="breadcrumb">
-            {% block breadcrumb %}
-            <li>Home</li>
-
-            <a href="{{ path('tram_position') }}"><span class="glyphicon glyphicon-map-marker pull-right"></span></a>
-
-            {% endblock %}
-    	</ol>
-
-
-        {% block body %}
-        {% endblock %}
-    </div>
-    <div class="footer">
-    <p>
-        <a href="#">Trams Grenoblois</a>
-        <a href="https://twitter.com/nicolas_vignes">@Twitter</a>
-        <a href="http://blog.nicolasvignes.fr">Blog</a>
-        <a href="https://github.com/ColasV/tram">GitHub</a>
-    </p>
-    </div>
-
+    {% block body %}
+    {% endblock %}
 </body>
 </html>
