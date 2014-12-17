@@ -23,11 +23,15 @@ class PDOHandler extends AbstractProcessingHandler
             $this->initialize();
         }
 
+        $date = new \DateTime();
+
+
+
         $this->statement->execute(array(
             'channel' => $record['channel'],
             'level' => $record['level'],
             'message' => $record['formatted'],
-            'time' => $record['datetime']->format('U'),
+            'time' => $date->format('Y-m-d H:i:s')
         ));
     }
 
@@ -35,10 +39,10 @@ class PDOHandler extends AbstractProcessingHandler
     {
         $this->pdo->exec(
             'CREATE TABLE IF NOT EXISTS Log '
-            .'(channel VARCHAR(255), level INTEGER, message LONGTEXT, time INTEGER UNSIGNED)'
+            .'(level INTEGER, channel VARCHAR(255), time string, message LONGTEXT)'
         );
         $this->statement = $this->pdo->prepare(
-            'INSERT INTO Log (channel, level, message, time) VALUES (:channel, :level, :message, :time)'
+            'INSERT INTO Log (level, channel, time, message) VALUES (:level, :channel, :time, :message)'
         );
 
         $this->initialized = true;
