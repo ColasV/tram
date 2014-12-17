@@ -37,10 +37,10 @@ class PDOHandler extends AbstractProcessingHandler
 
     private function initialize()
     {
-        $this->pdo->exec(
-            'CREATE TABLE IF NOT EXISTS Log '
-            .'(level INTEGER, channel VARCHAR(255), time string, message LONGTEXT)'
-        );
+        // $this->pdo->exec(
+        //     'CREATE TABLE IF NOT EXISTS Log '
+        //     .'(level INTEGER, channel VARCHAR(255), time string, message LONGTEXT)'
+        // );
         $this->statement = $this->pdo->prepare(
             'INSERT INTO Log (level, channel, time, message) VALUES (:level, :channel, :time, :message)'
         );

@@ -46,6 +46,8 @@ class AccidentCommand extends ContainerAwareCommand
         $crawler = new Crawler($html);
         $c = $crawler->filter('rss channel item');
 
+        $compteur = 0;
+
         foreach($c as $t) {
             $child = iterator_to_array($t->childNodes);
 
@@ -69,7 +71,7 @@ class AccidentCommand extends ContainerAwareCommand
 
             if ($ligne) {
                 $output->writeln('<info>Adding accident for ' . $code . '</info>');
-                $logger->debug('add accident ligne ' . $code);
+                $logger->debug('add accident ligne ' . $code . ' [' . $compteur . ']');
                 $accident = new Accident;
                 $accident->setName($name);
                 $accident->setDate($date);
@@ -81,7 +83,7 @@ class AccidentCommand extends ContainerAwareCommand
                 $manager->flush();
             }
 
-
+            $compteur += 1;
         }
 
         $logger->info('end of accident command');
