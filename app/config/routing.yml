@@ -1,13 +1,15 @@
 tram_admin:
     resource: "@TramAdminBundle/Resources/config/routing.yml"
     prefix:   /
-
 tram_user:
     resource: "@TramUserBundle/Resources/config/routing.yml"
     prefix:   /
 tram:
     resource: "@TramBundle/Resources/config/routing.yml"
     prefix:   /
+api:
+    pattern: /api
+    host: api-dev.grenoble-tram.fr
 root:
     pattern: /
     defaults:
