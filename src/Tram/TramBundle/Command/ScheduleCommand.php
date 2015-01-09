@@ -76,7 +76,9 @@ class ScheduleCommand extends ContainerAwareCommand
         $stop_repo = $manager->getRepository('TramBundle:Stop');
 
         // Delete old schedules
-        $query = $manager->createQuery('DELETE TramBundle:Schedule c');
+        $date = new \DateTime();
+        $query = $manager->createQuery('DELETE TramBundle:Schedule c WHERE c.date < :date')
+                            ->setParameter('date', $date->format('Y-m-d H-i-s'));
         $query->execute();
 
         foreach($lignes as $ligne) {
